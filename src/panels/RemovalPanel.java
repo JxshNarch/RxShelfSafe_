@@ -24,16 +24,11 @@ import database.DataStore;
 import frame.MainFrame;
 import model.Batch;
 
-
 public class RemovalPanel extends JPanel implements ActionListener, MouseListener {
-
-
-
-
      private Color pageBg = new Color(230, 230, 230);
     private DataStore data;
     private MainFrame main;
-    private JPanel rowList;                                           // the rows are added in here
+    private JPanel rowList;                                           
     private JScrollPane scroll;
     private JButton approveButton, rejectButton;
 
@@ -46,11 +41,6 @@ public class RemovalPanel extends JPanel implements ActionListener, MouseListene
         this.main = main;
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-
-
-       
-        
-
         // top
         JLabel title = new JLabel("REMOVAL QUEUE");
         title.setFont(new Font("Arial", Font.BOLD, 28));
@@ -64,18 +54,10 @@ public class RemovalPanel extends JPanel implements ActionListener, MouseListene
         top.add(subtitle, BorderLayout.CENTER);
         top.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         add(top, BorderLayout.NORTH);
-
 setBackground(pageBg);
-
         top.setBackground( new Color(230, 230,230));
 
-        
-
-
-
-
-
-
+    
         JPanel header = new JPanel(new BorderLayout());
         header.setBackground(new Color(255, 255, 255));
         header.setBorder(BorderFactory.createEmptyBorder(12, 15, 4, 15));
@@ -95,8 +77,7 @@ setBackground(pageBg);
 
         names.setFont(new Font("Arial", Font.BOLD, 16));
 
-       
-       
+    
 
         rowList = new JPanel();
         rowList.setLayout(new BoxLayout(rowList, BoxLayout.Y_AXIS));
@@ -109,21 +90,7 @@ setBackground(pageBg);
         scroll.getViewport().setBackground(new Color(230, 230, 230));
         scroll.getVerticalScrollBar().setUnitIncrement(20);
         add(scroll, BorderLayout.CENTER);
-
-        //
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
         JPanel bottom = new JPanel(new FlowLayout(FlowLayout.LEFT));
         bottom.setBackground(new Color(230, 230,230));
         if (main.isAdmin()) {
@@ -149,7 +116,6 @@ setBackground(pageBg);
         label.setFont(new Font("Arial", Font.BOLD, 16));
         return label;
     }
-
     //  black button style
     private void styleButton(JButton button) {
         button.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -159,8 +125,6 @@ setBackground(pageBg);
         button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         button.setFocusPainted(false);
     }
-
-    // 
     private Color statusColor(String status) {
         if (status.equals("Expired")) {
             return new Color(255, 0, 0);
@@ -170,8 +134,6 @@ setBackground(pageBg);
             return new Color(0, 230, 60);
         }
     }
-
-    // 
     private JPanel makeRow(int number, String id) {
         
         Batch b = data.getBatches().find(id);
@@ -181,7 +143,6 @@ setBackground(pageBg);
             medicine = b.getName();
             status = b.getStatus();
         }
-
         JLabel numberLabel = new JLabel("" + number, JLabel.CENTER);
         numberLabel.setFont(new Font("Arial", Font.BOLD, 18));
         numberLabel.setPreferredSize(new Dimension(50, 38));
@@ -204,24 +165,12 @@ setBackground(pageBg);
             square.setBackground(statusColor(status));
             statusCell.add(square);
         }
-
-
-
-
-        
                      String who = data.getRequesters().get(id);
 if (who == null) {
     who = "Staff";                      
 }
 JLabel byLabel = new JLabel(who, JLabel.CENTER);
         byLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-
-
-
-
-
-
-
         JPanel bar = new JPanel(new GridLayout(1, 4));
         bar.add(nameLabel);
         bar.add(idLabel);
@@ -229,7 +178,6 @@ JLabel byLabel = new JLabel(who, JLabel.CENTER);
         bar.add(byLabel);
         bars.add(bar);
         bar.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-
         JPanel row = new JPanel(new BorderLayout());
         row.setOpaque(false);
         row.setPreferredSize(new Dimension(100, 38));
@@ -237,10 +185,8 @@ JLabel byLabel = new JLabel(who, JLabel.CENTER);
      row.add(numberLabel, BorderLayout.WEST);
         row.add(bar, BorderLayout.CENTER);
         row.addMouseListener(this);
-        
         return row;
     }
-
     // the selected row gets a black outline and a light blue color
 private void showSelection() {
         for (int i = 0; i < bars.size(); i++) {
@@ -253,17 +199,14 @@ private void showSelection() {
             }
         }
     }
-
     public void refresh() {
         rowList.removeAll();
         rows.clear();
         bars.clear();
         ids.clear();
-
         if (selectedId != null && !data.getRequests().contains(selectedId)) {
             selectedId = null;                                   // request is gone
         }
-
         for (int i = 0; i < data.getRequests().size(); i++) {
             String id = data.getRequests().get(i);
             JPanel row = makeRow(i + 1, id);
@@ -276,7 +219,6 @@ private void showSelection() {
         rowList.revalidate();
         rowList.repaint();
     }
-
     public void actionPerformed(ActionEvent e) {
         if (selectedId == null) {
             JOptionPane.showMessageDialog(this, "Please click a request in the list first.");
@@ -284,43 +226,22 @@ private void showSelection() {
         }
         String id = selectedId;
         int index = data.getRequests().indexOf(id);
-
-
-
         if (e.getSource() == approveButton) {
-
-
-
  int answer = JOptionPane.showConfirmDialog(this,
                     "This item will be permanently deleted from the system",
                     "Confirm Deletion", JOptionPane.YES_NO_OPTION);
             if (answer != JOptionPane.YES_OPTION) {
                 return;
             }
-
-
             data.deleteBatch(id);        // removes the node and the request
             main.addLog("APPROVED: Admin approved removal of batch " + id + ". The node was deleted.");
-
-
-
-            
         } else if (e.getSource() == rejectButton) {
-
-
 int answer = JOptionPane.showConfirmDialog(this,
                     "Confirm rejection of the removal request?",
                     "Confirm Rejection", JOptionPane.YES_NO_OPTION);
             if (answer != JOptionPane.YES_OPTION) {
                 return;
             }
-
-
-
-
-
-
-
             data.getRequests().remove(index);
             data.getRequesters().remove(id);  
             main.addLog("REJECTED: Admin rejected the removal request for batch " + id + ".");
@@ -329,8 +250,7 @@ int answer = JOptionPane.showConfirmDialog(this,
         data.save();
         main.refreshAll();
     }
-
-    // a row was clicked: select it
+    // a row was clickedselect it
     public void mouseClicked(MouseEvent e) {
         int index = rows.indexOf(e.getSource());
         if (index != -1) {
@@ -339,7 +259,7 @@ int answer = JOptionPane.showConfirmDialog(this,
         }
     }
 
-    // the mouse methods below are required by MouseListener but we do not use them
+    //required by unused
     public void mousePressed(MouseEvent e) {
     }
 

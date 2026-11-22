@@ -14,9 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import model.Batch;
-import model.BatchList;      //new
-
-// Dashboard
+import model.BatchList;     
 
 public class DashboardPanel extends JPanel {
 
@@ -26,13 +24,11 @@ public class DashboardPanel extends JPanel {
     private JLabel pendingLabel, adminLabel, staffLabel, categoryLabel;
     private JPanel nextList;         
     
-        private JLabel updatedLabel;      //new (Last updated: date and time)
+        private JLabel updatedLabel;//time update     
 
     public DashboardPanel(DataStore data) {
         this.data = data;
-
         Color pageGray = new Color(230, 230, 230);    
-
         setLayout(new BorderLayout(10, 10));
         setBackground(pageGray);
         setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
@@ -40,17 +36,16 @@ public class DashboardPanel extends JPanel {
         JLabel title = new JLabel("DASHBOARD");
         title.setFont(new Font("Arial", Font.BOLD, 28));
         
-                updatedLabel = new JLabel(" ");      //new
-        updatedLabel.setFont(new Font("Arial", Font.PLAIN, 14));      //new
-        updatedLabel.setForeground(new Color(90, 90, 90));      //new
+                updatedLabel = new JLabel(" ");
+        updatedLabel.setFont(new Font("Arial", Font.PLAIN, 14));   
+        updatedLabel.setForeground(new Color(90, 90, 90)); 
 
-        JPanel header = new JPanel(new BorderLayout());      //new (the title and the last updated text, one under the other)
-        header.setOpaque(false);      //new
-        header.add(title, BorderLayout.NORTH);      //new
-        header.add(updatedLabel, BorderLayout.SOUTH);      //new
-        add(header, BorderLayout.NORTH);      //fixed (was add(title, BorderLayout.NORTH);)
-
-        // the cards with the numbers
+        JPanel header = new JPanel(new BorderLayout());   
+        header.setOpaque(false);    
+        header.add(title, BorderLayout.NORTH);    
+        header.add(updatedLabel, BorderLayout.SOUTH);    
+        add(header, BorderLayout.NORTH);   
+        //the cards with the numbers
         totalLabel = new JLabel("0");
         goodLabel = new JLabel("0");
         nearLabel = new JLabel("0");
@@ -59,7 +54,6 @@ public class DashboardPanel extends JPanel {
         adminLabel = new JLabel("0"); 
         staffLabel = new JLabel("0");
         categoryLabel = new JLabel("0");
-
 
 totalLabel.setFont(new Font("roboto", Font.PLAIN, 38));
         goodLabel.setFont(new Font("roboto", Font.PLAIN, 38));
@@ -70,26 +64,10 @@ totalLabel.setFont(new Font("roboto", Font.PLAIN, 38));
         staffLabel.setFont(new Font("roboto", Font.PLAIN, 38));
         categoryLabel.setFont(new Font("roboto", Font.PLAIN, 38));
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         Color total = new Color(73, 146, 255);
         Color green = new Color(50, 220, 65);
         Color orange = new Color(255, 143, 53);
         Color red = new Color(210, 61, 61);
-
         JPanel boxes = new JPanel(new GridLayout(2, 4, 15, 15));
         boxes.setBackground(pageGray);
         boxes.add(makeBox("Total items", totalLabel, total));
@@ -102,11 +80,6 @@ totalLabel.setFont(new Font("roboto", Font.PLAIN, 38));
         boxes.add(makeBox("Admin Accounts", adminLabel, Color.WHITE));
         boxes.setPreferredSize(new Dimension(100, 210));
         
-
-        
-
-
-
         // the list of the next batches to expire
         nextList = new JPanel();
         nextList.setLayout(new BoxLayout(nextList, BoxLayout.Y_AXIS));
@@ -130,21 +103,8 @@ totalLabel.setFont(new Font("roboto", Font.PLAIN, 38));
         middle.add(boxes, BorderLayout.NORTH);
         middle.add(nextPanel, BorderLayout.CENTER);
         add(middle, BorderLayout.CENTER);
-
-
-
-
-
-
-
-
-
-
-
-
     }
-
-    // makes one card
+    //makes one card
     private JPanel makeBox(String text, JLabel numberLabel, Color background) {
         JLabel titleLabel = new JLabel(text);
         titleLabel.setForeground(Color.BLACK);
@@ -157,21 +117,17 @@ totalLabel.setFont(new Font("roboto", Font.PLAIN, 38));
         JPanel box = new JPanel(new BorderLayout());
         box.setBackground(background);
 
-
        box.setBorder(BorderFactory.createCompoundBorder(        
         BorderFactory.createLineBorder(Color.BLACK, 2),       
         BorderFactory.createEmptyBorder(10, 12, 10, 12)));   // space inside the card
-
-
 
         box.add(titleLabel, BorderLayout.NORTH);
         box.add(numberLabel, BorderLayout.CENTER);
         return box;
     }
-
     // makes one
     private JPanel makeRow(Batch b) {
-        //  (red / orange / green)
+        
         JPanel stripe = new JPanel();
         stripe.setPreferredSize(new Dimension(20, 0));
         stripe.setBackground(statusColor(b.getStatus()));
@@ -180,16 +136,12 @@ totalLabel.setFont(new Font("roboto", Font.PLAIN, 38));
         nameLabel.setFont(new Font("Arial", Font.BOLD, 16));
 
         JLabel detailsLabel = new JLabel("Batch " + b.getBatchId()
-                + " ׀ Quantity: " + b.getQuantity()
+            + " ׀ Quantity: " + b.getQuantity()
                 + " ׀ Expiry date: " + b.getExpiration().format(Batch.DATE_FORMAT)
-                + " ׀ " + b.getCategory()
-                + " · " + b.getDosage());
+          + " ׀ " + b.getCategory()
+            + " ׀ " + b.getDosage());
         detailsLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-         
-        detailsLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));   // space 
- 
-
-
+        detailsLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); 
         JPanel row = new JPanel(new BorderLayout(15, 0));
         row.setBackground(Color.WHITE);
         row.setBorder(BorderFactory.createLineBorder(Color.BLACK));
@@ -212,13 +164,10 @@ totalLabel.setFont(new Font("roboto", Font.PLAIN, 38));
         }
     }
 
-    
-    public void refresh() {
-                // every time the dashboard is refreshed, show the date and time      //new
+    public void refresh() { //time update
                  updatedLabel.setText("Last updated: " 
-                 + data.getLastUpdated().format(DateTimeFormatter.ofPattern("MMM dd, yyyy  hh:mm a")));      //fixed
-                updatedLabel.setForeground(new Color(65, 167, 46));
-                
+                 + data.getLastUpdated().format(DateTimeFormatter.ofPattern("MMM dd, yyyy  hh:mm a"))); 
+                updatedLabel.setForeground(new Color(65, 167, 46));     
         BatchList list = data.getBatches();
         totalLabel.setText("" + list.getSize());
         goodLabel.setText("" + list.countStatus("Good"));
@@ -228,7 +177,6 @@ totalLabel.setFont(new Font("roboto", Font.PLAIN, 38));
         adminLabel.setText("" + data.countRole("ADMIN"));
         staffLabel.setText("" + data.countRole("STAFF"));
         categoryLabel.setText("" + data.getCategories().size());
-
         nextList.removeAll();                       
         ArrayList<Batch> earliest = list.getEarliest(10);
         for (int i = 0; i < earliest.size(); i++) {

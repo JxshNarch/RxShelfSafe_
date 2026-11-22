@@ -12,11 +12,11 @@ public class DBConnection {
 
     // find the database file; if it does not exist yet, it will be made next to the old text file
     public static String findDatabase() {
-        String found = FileFinder.find("rxshelfsafe.db");
+        String found = ("rxshelfsafe.db");
         if (new File(found).exists()) {
             return found;
         }
-        String textFile = FileFinder.find("rxshelfsafe_data.txt");
+        String textFile = ("rxshelfsafe_data.txt");
         File folder = new File(textFile).getAbsoluteFile().getParentFile();
         return new File(folder, "rxshelfsafe.db").getAbsolutePath();
     }

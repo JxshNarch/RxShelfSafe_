@@ -1,6 +1,5 @@
 package frame;
 import database.DataStore;
-import database.FileFinder;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -30,50 +29,34 @@ import panels.DashboardPanel;
 import panels.RemovalPanel;
 import panels.ReportPanel;
 
-
-
-
-
-
-
 public class MainFrame extends JFrame implements ActionListener {
 
     private DataStore data;
     private Account user;
 
-    private CardLayout cards;          // shows one screen at a time
+    private CardLayout cards;          
     private JPanel center;
     private JTextArea logArea;
 
     private JButton dashboardButton, batchesButton, removalButton,
             reportButton, categoryButton, accountButton, logoutButton;
-
     private JPanel menu;             
     private JPanel left;              
-
-   
     private JButton selectedButton;
-  
-
     // the screens
     private DashboardPanel dashboardPanel;
     private BatchPanel inventoryPanel;
     private RemovalPanel removalPanel;
     private ReportPanel reportPanel;
     private CategoryPanel categoryPanel;
-    private AccountPanel accountPanel;//admin only
+    private AccountPanel accountPanel;//admin
 
     public MainFrame(DataStore data, Account user) {
         this.data = data;
         this.user = user;
-
         setTitle("RxShelfSafe - The Liezle Pharmacy");
-
-
-        
         setSize(900, 650);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
@@ -81,44 +64,20 @@ public class MainFrame extends JFrame implements ActionListener {
         String panelName = "STAFF PANEL";
         if (isAdmin()) {
             panelName = "ADMIN PANEL";        
-
         }
         menu = new JPanel(new GridLayout(0, 1, 5, 5));
-
-
         JLabel panelLabel = new JLabel(panelName, JLabel.CENTER);
 panelLabel.setFont(new Font("open sans", Font.BOLD, 20));
 panelLabel.setForeground(new Color(0, 0, 0));
 
-
-
-
-
-
-
 menu.add(panelLabel);
-
-
-
 //file finder
-ImageIcon profileIcon = new ImageIcon(FileFinder.find("user.png"));
+ImageIcon profileIcon = new ImageIcon("user.png");
 Image smallIcon = profileIcon.getImage().getScaledInstance(28, 28, Image.SCALE_SMOOTH);
 JLabel userLabel = new JLabel(user.getUsername(), new ImageIcon(smallIcon), JLabel.CENTER);
 userLabel.setIconTextGap(8);               // space between the icon and the name
-
-
-
-
-
-
-
-
-
-
 userLabel.setFont(new Font("Arial", Font.BOLD, 16));
 menu.add(userLabel);
-
-
 
                dashboardButton = makeMenuButton("Dashboard", "dashboard.png", menu);
         batchesButton = makeMenuButton("Manage Batches", "batches.png", menu);
@@ -129,79 +88,30 @@ menu.add(userLabel);
             accountButton = makeMenuButton("Accounts", "account.png", menu);
         
         }
-
-
-
-
-  
-
         logoutButton = new JButton("Log Out");
-
-
-              ImageIcon logoutIcon = new ImageIcon(FileFinder.find("logout.png"));
+              ImageIcon logoutIcon = new ImageIcon("logout.png");
 logoutButton.setIcon(new ImageIcon(logoutIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
 logoutButton.setIconTextGap(12);
 
         logoutButton.addActionListener(this);
-
         logoutButton.setFont(new Font("Arial", Font.BOLD, 16));
         logoutButton.setPreferredSize(new Dimension(200, 45));
         logoutButton.setContentAreaFilled(true);
         logoutButton.setFocusPainted(true);
         logoutButton.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
         logoutButton.setBackground(new Color(255, 255, 255));
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      
-
         left = new JPanel(new BorderLayout());
         left.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         left.add(menu, BorderLayout.NORTH);
         left.add(logoutButton, BorderLayout.SOUTH);
         add(left, BorderLayout.WEST);
-
-       
-        
         menu.setBackground(Color.WHITE);
-
        left.setBorder(BorderFactory.createCompoundBorder(
-        BorderFactory.createMatteBorder(0, 2, 0, 2, Color.BLACK),     // top, left, bottom, right thickness
+        BorderFactory.createMatteBorder(0, 2, 0, 2, Color.BLACK),
         BorderFactory.createEmptyBorder(10, 10, 10, 10)));           
-          
-
         menu.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
     
-
-        
-
-
-        //menu
+        //menu side 
         cards = new CardLayout();
         center = new JPanel(cards);
         dashboardPanel = new DashboardPanel(data);
@@ -218,17 +128,14 @@ logoutButton.setIconTextGap(12);
             accountPanel = new AccountPanel(data, this);
             center.add(accountPanel, "accounts");
         }
-        /////
-        /// 
-        /// 
                 //system log ni
         logArea = new JTextArea(6, 20);
         logArea.setEditable(false);
         logArea.setBackground(new Color(245, 245, 245));
-        logArea.setBorder(BorderFactory.createEmptyBorder(8, 12, 8, 12));    // space inside the box
+        logArea.setBorder(BorderFactory.createEmptyBorder(8, 12, 8, 12));   
 
         JScrollPane logScroll = new JScrollPane(logArea);
-        logScroll.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));  // the black outline
+        logScroll.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); 
 
         JLabel logTitle = new JLabel("SYSTEM LOG");
 
@@ -238,24 +145,14 @@ logoutButton.setIconTextGap(12);
         logPanel.add(logTitle, BorderLayout.NORTH);
         logPanel.add(logScroll, BorderLayout.CENTER);
 
-        //
         JPanel right = new JPanel(new BorderLayout());
         right.add(center, BorderLayout.CENTER);
         right.add(logPanel, BorderLayout.SOUTH);
         add(right, BorderLayout.CENTER);
 
-
-
-
         refreshAll();
-
-      
         highlight(dashboardButton);
-       
     }
-
-    //buttons
-         
     private JButton makeMenuButton(String text, String iconFile, JPanel menu) {
         JButton button = new JButton(text);
 
@@ -265,57 +162,38 @@ logoutButton.setIconTextGap(12);
         button.setContentAreaFilled(false);                              
         button.setFocusPainted(false);                                  
         button.setBorder(BorderFactory.createEmptyBorder(8, 20, 8, 8));    
-
-        
-        
-        ImageIcon icon = new ImageIcon(FileFinder.find(iconFile));
+        ImageIcon icon = new ImageIcon(iconFile);
         button.setIcon(new ImageIcon(icon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
-        button.setIconTextGap(12);                                      // space between the icon and the text
-        button.setHorizontalAlignment(SwingConstants.LEFT);             // icon and text start at the left
+        button.setIconTextGap(12);                                      
+        button.setHorizontalAlignment(SwingConstants.LEFT);             
 
         button.addActionListener(this);
         menu.add(button);
         return button;
     
     }
-
-
-
-
-
-
-   
-   
     private void highlight(JButton button) {
         if (selectedButton != null) {
             selectedButton.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         }
         selectedButton = button;
        
-
         selectedButton.setBorder(BorderFactory.createCompoundBorder(
         BorderFactory.createLineBorder(Color.BLACK, 2),
         BorderFactory.createEmptyBorder(6, 30, 6, 6)));
-  
-           
     }
-   
-
     public boolean isAdmin() {
         return user.getRole().equals("ADMIN");
     }
-
     public Account getUser() {
         return user;
     }
-
     //system log also ts
     public void addLog(String message) {
         String time = LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss a"));
         logArea.append("[" + time + "] " + message + "\n");
-        logArea.setCaretPosition(logArea.getDocument().getLength());   // scroll to the bottom
+        logArea.setCaretPosition(logArea.getDocument().getLength());
     }
-
     //refresh
     public void refreshAll() {
         dashboardPanel.refresh();
@@ -327,13 +205,11 @@ logoutButton.setIconTextGap(12);
             accountPanel.refresh();
         }
     }
-
     // show one screen
     public void showPanel(String name) {
         refreshAll();
         cards.show(center, name);
     }
-
     //warnind
     public void showStartupAlert() {
         int expired = data.getBatches().countStatus("Expired");
@@ -345,17 +221,10 @@ logoutButton.setIconTextGap(12);
                     "Expiration Alerts", JOptionPane.WARNING_MESSAGE);
         }
     }
-
     public void actionPerformed(ActionEvent e) {
-       
-
-        
-        
         if (e.getSource() != logoutButton) {
             highlight((JButton) e.getSource());
         }
-    
-
         if (e.getSource() == dashboardButton) {
             showPanel("dashboard");
         } else if (e.getSource() == batchesButton) {

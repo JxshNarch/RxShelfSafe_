@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 import java.util.HashMap;
 
-import java.sql.Connection;      //new
-import java.sql.SQLException;      //new
+import java.sql.Connection;      
+import java.sql.SQLException;     
 
 
 
@@ -22,12 +22,12 @@ import model.BatchList;
 public class DataStore {
 
 
-        // the last time the database file was changed (add, edit, delete, ...)      //new
-    public java.time.LocalDateTime getLastUpdated() {      //new
-        File db = new File(DBConnection.findDatabase());      //new
-        return java.time.LocalDateTime.ofInstant(java.time.Instant.ofEpochMilli(db.lastModified()),      //new
-                java.time.ZoneId.systemDefault());      //new
-    }      //new
+       
+    public java.time.LocalDateTime getLastUpdated() {      
+        File db = new File(DBConnection.findDatabase());    
+        return java.time.LocalDateTime.ofInstant(java.time.Instant.ofEpochMilli(db.lastModified()),     
+                java.time.ZoneId.systemDefault());      
+    }     
 
     private BatchList batches = new BatchList();
     private ArrayList<Account> accounts = new ArrayList<Account>();
@@ -37,12 +37,12 @@ public class DataStore {
 
     private HashMap<String, String> requesters = new HashMap<String, String>();   // Batch ID -> username of the staff who requested it     
 
-        private String fileName = FileFinder.find("rxshelfsafe_data.txt");      // the old text file (now only used once, to import the old data)   //fixed (comment)
+        private String fileName =("rxshelfsafe_data.txt");      
 
-    private Connection connection;                                  //new (the open database)
-    private AccountDAO accountDAO = new AccountDAO();               //new
-    private CategoryDAO categoryDAO = new CategoryDAO();            //new
-    private BatchDAO batchDAO = new BatchDAO();                     //new
+    private Connection connection;                                  
+    private AccountDAO accountDAO = new AccountDAO();              
+    private CategoryDAO categoryDAO = new CategoryDAO();          
+    private BatchDAO batchDAO = new BatchDAO();                    
     private RequestDAO requestDAO = new RequestDAO();    
                
  public DataStore() {

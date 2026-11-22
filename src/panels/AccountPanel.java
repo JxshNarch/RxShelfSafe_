@@ -30,18 +30,8 @@ public class AccountPanel extends JPanel implements ActionListener {
     private MainFrame main;
     private DefaultTableModel model;
     private JTable table;
-
     private JButton addButton, editButton, removeButton;
-
-    //UI
-
-
-
-
-
-
-
-
+    
   private Color pageBg = new Color(230, 230, 230);
 
     private Color pageGray = new Color(255, 255, 255);
@@ -57,18 +47,7 @@ public class AccountPanel extends JPanel implements ActionListener {
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
-
-
-
-
-
-
-
-
-
-
-
-        //tile 
+       //ui
         JLabel title = new JLabel("MANAGE ACCOUNTS");
 title.setOpaque(true);
 title.setBackground(pageBg);
@@ -85,15 +64,6 @@ subtitle.setBackground(pageBg);
         top.add(title, BorderLayout.NORTH);
         top.add(subtitle, BorderLayout.CENTER);
 
-
-
-
-
-
-
-
-
-
         //button
         addButton = makeButton("+ Add Account", Color.BLACK, Color.WHITE, 160);
 
@@ -108,28 +78,13 @@ subtitle.setBackground(pageBg);
 
         add(top, BorderLayout.NORTH);
 
-
-
-
 buttons.setBackground(pageBg);
-
 setBackground(pageBg);
-
-
-
-
-
-
-
-
-
         // table
         model = new DefaultTableModel(
                 new String[]{"Username", "Role"}, 0
         );
-
         table = new JTable(model);
-
         table.setDefaultEditor(Object.class, null);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
@@ -140,48 +95,19 @@ setBackground(pageBg);
         table.setFillsViewportHeight(true);
 
         table.setDefaultRenderer(Object.class, new RowRenderer());
-
-        // 
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         //table headers
-
-
         JTableHeader header = table.getTableHeader();
-
         header.setDefaultRenderer(new HeaderRenderer());
         header.setPreferredSize(new Dimension(100, 45));
         header.setReorderingAllowed(false);
         header.setResizingAllowed(false);
         header.setBackground(pageGray);
-
-        //
         JPanel headerHolder = new JPanel(new BorderLayout());
-
         headerHolder.setBackground(pageGray);
         headerHolder.setBorder(
                 BorderFactory.createEmptyBorder(0, 15, 0, 15)
         );
-
         headerHolder.add(header, BorderLayout.CENTER);
-
-
-
-
-
-
-
-
-
                 //scroll
         JScrollPane scroll = new JScrollPane(table);
 
@@ -190,44 +116,24 @@ setBackground(pageBg);
         scroll.setViewportBorder(
                 BorderFactory.createEmptyBorder(0, 15, 0, 15)
         );
-
         scroll.setBorder(
                 BorderFactory.createLineBorder(Color.BLACK, 2)
         );
-
         scroll.setBackground(Color.WHITE);
         scroll.getViewport().setBackground(Color.WHITE);
-
         scroll.getVerticalScrollBar().setUnitIncrement(20);
-
         add(scroll, BorderLayout.CENTER);
-
         //remove button
         removeButton = makeButton(
                 "Delete Account", barGray, Color.BLACK, 160
         );
-
         JPanel bottom = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
         bottom.add(removeButton);
-
         add(bottom, BorderLayout.SOUTH);
         bottom.setBackground(pageBg);
     }
-
-
-
-
-
-
-
-
-
-   
     private JButton makeButton(String text, Color bg, Color fg, int width) {
-
         JButton button = new JButton(text);
-
         button.setFont(new Font("Arial", Font.PLAIN, 16));
         button.setPreferredSize(new Dimension(width, 35));
 
@@ -236,13 +142,10 @@ setBackground(pageBg);
         button.setBorder(
                 BorderFactory.createLineBorder(Color.BLACK, 2)
         );
-
         button.setFocusPainted(false);
         button.addActionListener(this);
-
         return button;
     }
-
     //row
     private class RowRenderer extends DefaultTableCellRenderer {
 
@@ -255,39 +158,31 @@ setBackground(pageBg);
             super.getTableCellRendererComponent(
                     t, value, isSelected, false, row, column
             );
-
             setHorizontalAlignment(CENTER);
             setFont(new Font("Arial", Font.PLAIN, 16));
             setForeground(Color.BLACK);
 
             if (isSelected) {
-
                 setBackground(selectColor);
-
                 if (column == 0) {
                     setBorder(BorderFactory.createMatteBorder(
-                            2, 2, 2, 0, Color.BLACK
+                         2, 2, 2, 0, Color.BLACK
                     ));
                 } else {
                     setBorder(BorderFactory.createMatteBorder(
-                            2, 0, 2, 2, Color.BLACK
+                         2, 0, 2, 2, Color.BLACK
                     ));
                 }
-
             } else {
-
                                setBackground(rowWhite);
                 setBorder(BorderFactory.createEmptyBorder());
 
             }
-
             return this;
         }
     }
-
     // header style
     private class HeaderRenderer extends DefaultTableCellRenderer {
-
         @Override
         public Component getTableCellRendererComponent(
                 JTable t, Object value,
@@ -307,29 +202,16 @@ setBackground(pageBg);
             return this;
         }
     }
-
     //refresg
     public void refresh() {
-
         model.setRowCount(0);
-
         for (Account a : data.getAccounts()) {
-
             model.addRow(new Object[]{
                     a.getUsername(),
                     a.getRole()
             });
         }
     }
-
-
-
-
-
-
-
-
-
     //autton action
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -347,14 +229,6 @@ setBackground(pageBg);
             removeAccount();
         }
     }
-
-
-
-
-
-
-
-
     // add acco
     private void openAddDialog() {
 
@@ -366,9 +240,7 @@ setBackground(pageBg);
             String username = dialog.getNameValue();
             String password = dialog.getPasswordValue();
             String role = dialog.getRoleValue();
-
             for (Account a : data.getAccounts()) {
-
                 if (a.getUsername().equalsIgnoreCase(username)) {
 
                     JOptionPane.showMessageDialog(this,
@@ -376,7 +248,6 @@ setBackground(pageBg);
                     return;
                 }
             }
-
             data.getAccounts().add(new Account(username, password, role));
 
             main.addLog("ACCOUNT: " + role + " account \"" +
@@ -386,7 +257,6 @@ setBackground(pageBg);
             main.refreshAll();
         }
     }
-
     // edit
     private void openEditDialog() {
 
@@ -422,7 +292,6 @@ setBackground(pageBg);
                     return;
                 }
             }
-
             selected.setUsername(newName);
             selected.setPassword(newPass);
             selected.setRole(newRole);
@@ -434,29 +303,21 @@ setBackground(pageBg);
             main.refreshAll();
         }
     }
-
     //delete
     private void removeAccount() {
-
         int row = table.getSelectedRow();
-
         if (row == -1) {
-
             JOptionPane.showMessageDialog(this,
                     "Please click an account in the table first.");
             return;
         }
-
         Account a = data.getAccounts().get(row);
-
         if (a.getUsername().equalsIgnoreCase(
                 main.getUser().getUsername())) {
-
             JOptionPane.showMessageDialog(this,
                     "You cannot remove the account you are using.");
             return;
         }
-
         if (a.getRole().equals("ADMIN") &&
                 data.countRole("ADMIN") <= 1) {
 
@@ -464,18 +325,14 @@ setBackground(pageBg);
                     "There must be at least one admin.");
             return;
         }
-
         int answer = JOptionPane.showConfirmDialog(this,
                 "Remove the account \"" + a.getUsername() + "\"?",
                 "Confirm", JOptionPane.YES_NO_OPTION);
 
         if (answer == JOptionPane.YES_OPTION) {
-
             data.getAccounts().remove(row);
-
             main.addLog("ACCOUNT: account \"" +
                     a.getUsername() + "\" was removed.");
-
             data.save();
             main.refreshAll();
         }

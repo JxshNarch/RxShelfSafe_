@@ -43,9 +43,6 @@ import model.BatchList;
 
 public class ReportPanel extends JPanel implements ActionListener, TableModelListener {
 
-
-
-
     private Color pageBg = new Color(230, 230, 230);   // the page, not the table
 
     private DataStore data;
@@ -130,25 +127,9 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
         tools.add(hideBox);
 
         JPanel rightTools = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-
-
-
-
-
-
         rightTools.add(filtertext);
         rightTools.add(filterBox);
         rightTools.add(sortButton);
-
-
-
-
-
-
-
-
-
-
         JPanel toolsRow = new JPanel(new BorderLayout());
         toolsRow.add(tools, BorderLayout.CENTER);
         toolsRow.add(rightTools, BorderLayout.EAST);
@@ -158,16 +139,10 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
         top.add(subtitle, BorderLayout.CENTER);
         top.add(toolsRow, BorderLayout.SOUTH);
         add(top, BorderLayout.NORTH);
-
-       
-        
         tools.setBackground(pageBg);
         toolsRow.setBackground(pageBg);
         rightTools.setBackground(pageBg);
-
-
         setBackground(pageBg);
-
         // middle: the table (the status column is in the model, but we hide it and draw a stripe instead)
         model = new ReportModel(new String[]{"Mark", "ID", "Name", "Category",
             "Quantity", "Expiry Date", "Days Left", "Status"});
@@ -189,9 +164,6 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
                 table.getColumnModel().getColumn(0).setMinWidth(90);        // Mark: a narrow column that keeps this width
         table.getColumnModel().getColumn(0).setMaxWidth(90);
           // Mark
-
-
-
         table.getColumnModel().getColumn(1).setPreferredWidth(200); // Name
         table.getColumnModel().getColumn(2).setPreferredWidth(80);  // ID
         table.getColumnModel().getColumn(3).setPreferredWidth(160); // Category
@@ -220,9 +192,7 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
         JScrollPane scroll = new JScrollPane(table);
         scroll.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         scroll.getViewport().setBackground(pageGray);
-
                 scroll.setViewportBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));   // small space at the right of the rows
-
         scroll.getVerticalScrollBar().setUnitIncrement(20);
         add(scroll, BorderLayout.CENTER);
 
@@ -242,17 +212,14 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
 
         JPanel bottomRight = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         bottomRight.add(exportButton);
-
         JPanel bottom = new JPanel(new BorderLayout());
         bottom.add(bottomLeft, BorderLayout.CENTER);
         bottom.add(bottomRight, BorderLayout.EAST);
         add(bottom, BorderLayout.SOUTH);
-
         bottomLeft.setBackground(pageBg);
         bottomRight.setBackground(pageBg);
         bottom.setBackground(pageBg);
     }
-
     // makes one button with the same look as the other screens
     private JButton makeButton(String text, Color bg, Color fg, int width) {
         JButton button = new JButton(text);
@@ -265,7 +232,6 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
         button.addActionListener(this);
         return button;
     }
-
     // the color of the stripe at the left of a row
     private Color statusColor(String status) {
         if (status.equals("Expired")) {
@@ -275,7 +241,6 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
         }
         return new Color(0, 230, 60);
     }
-
     // draws the cells of a row: a black outline around the row and the colored stripe on the Name cell
     private class RowCellRenderer extends DefaultTableCellRenderer {
         public Component getTableCellRendererComponent(JTable t, Object value,
@@ -288,7 +253,6 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
             } else {
                 setBackground(Color.WHITE);
             }
-
             if (column == 1) {                       // the Name cell: bold, with the stripe at the left
                 setFont(new Font("Arial", Font.BOLD, 16));
                 Color stripe = Color.GRAY;
@@ -308,7 +272,6 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
             return this;
         }
     }
-
     // draws a check box: a square, and a check mark inside when it is checked
     private class CheckIcon implements Icon {
         private boolean checked;
@@ -316,15 +279,12 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
         public CheckIcon(boolean checked) {
             this.checked = checked;
         }
-
         public int getIconWidth() {
             return 22;
         }
-
         public int getIconHeight() {
             return 22;
         }
-
         public void paintIcon(Component c, Graphics g, int x, int y) {
             Graphics2D g2 = (Graphics2D) g.create();
             g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -345,7 +305,6 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
             g2.dispose();
         }
     }
-
     // draws the check box of the Mark column
     private class CheckRenderer extends JCheckBox implements TableCellRenderer {
         public CheckRenderer() {
@@ -354,7 +313,6 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
             setIcon(new CheckIcon(false));
             setSelectedIcon(new CheckIcon(true));
         }
-
         public Component getTableCellRendererComponent(JTable t, Object value,
                 boolean isSelected, boolean hasFocus, int row, int column) {
             setSelected(value != null && (Boolean) value);
@@ -366,7 +324,6 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
             return this;
         }
     }
-
     // draws the header names (Mark, Name, ID ...)
     private class HeaderRenderer extends DefaultTableCellRenderer {
         public Component getTableCellRendererComponent(JTable t, Object value,
@@ -380,11 +337,9 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
             return this;
         }
     }
-
     // fill the table using the filter and the search text
     public void refresh() {
         BatchList list = data.getBatches();
-
         // pick the batches that pass the filter, the search and "hide checked"
         ArrayList<Batch> found = list.search(searchField.getText());
         ArrayList<Batch> rows = new ArrayList<Batch>();
@@ -436,7 +391,6 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
             rows.set(smallest, temp);
         }
     }
-
     // check or uncheck the selected rows
     private void setCheckedForSelected(boolean value) {
         int[] selectedRows = table.getSelectedRows();

@@ -35,24 +35,21 @@ public class BatchStyle extends JPanel implements MouseListener, ActionListener 
         setSelected(false);
         addMouseListener(this);
 
-        //color (red / orange / green)
+        //color
         JPanel stripe = new JPanel();
         stripe.setPreferredSize(new Dimension(20, 0));
         stripe.setBackground(statusColor(b.getStatus()));
 
         //middle text
         String firstLine = b.getName().toUpperCase() + "  -  Batch ID: " + b.getBatchId();
-     //
         JLabel nameLabel = new JLabel(firstLine);
         nameLabel.setFont(new Font("Arial", Font.BOLD, 16));
-
         JLabel line2 = new JLabel("Quantity: " + b.getQuantity() + "     Category: " + b.getCategory());
         line2.setFont(new Font("Arial", Font.PLAIN, 14));
 
         JLabel line3 = new JLabel("Dosage: " + b.getDosage() + "     Expiry date: "
                 + b.getExpiration().format(Batch.DATE_FORMAT));
         line3.setFont(new Font("Arial", Font.PLAIN, 14));
-
         JLabel statusLabel = new JLabel(b.getStatus().toUpperCase());
         statusLabel.setFont(new Font("Arial", Font.BOLD, 14));
 
@@ -79,9 +76,6 @@ public class BatchStyle extends JPanel implements MouseListener, ActionListener 
         }
         if (showRequest) {
             requestButton = new JButton("Request removal");
-
-
-            
             requestButton.setFont(new Font("Arial", Font.PLAIN, 14));
             requestButton.setPreferredSize(new Dimension(150, 36));
             requestButton.setMaximumSize(new Dimension(150, 36));
@@ -94,8 +88,8 @@ public class BatchStyle extends JPanel implements MouseListener, ActionListener 
             }
                       requestButton.addActionListener(this);
 
-            // the Cancel button goes first (on the left of the Request button), and only shows when the batch is requested      //fixed
-            if (alreadyRequested) {      //fixed
+            // the Cancel button goes first    
+            if (alreadyRequested) {      
                 cancelButton = new JButton("Cancel");        
                 cancelButton.setFont(new Font("Arial", Font.PLAIN, 14));        
                 cancelButton.setPreferredSize(new Dimension(90, 36));        
@@ -107,9 +101,9 @@ public class BatchStyle extends JPanel implements MouseListener, ActionListener 
                 cancelButton.addActionListener(this);        
                 rightPanel.add(cancelButton);        
                 rightPanel.add(Box.createHorizontalStrut(10));          
-                 //the gap between the two buttons
+               
             }   
-            rightPanel.add(requestButton);      //fixed (now added after the Cancel button)
+            rightPanel.add(requestButton);     
         }
         rightPanel.add(Box.createHorizontalStrut(20));
 
@@ -117,12 +111,10 @@ public class BatchStyle extends JPanel implements MouseListener, ActionListener 
         add(textPanel, BorderLayout.CENTER);
         add(rightPanel, BorderLayout.EAST);
     }
-
     public Batch getBatch() {
         return batch;
     }
-
-    //thicc
+    
     public void setSelected(boolean selected) {
         if (selected) {
             setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
@@ -143,7 +135,6 @@ public class BatchStyle extends JPanel implements MouseListener, ActionListener 
             return new Color(0, 230, 60);
         }
     }
-
     // the request clicked
     public void actionPerformed(ActionEvent e) {
       if (e.getSource() == cancelButton) {        
@@ -153,14 +144,7 @@ public class BatchStyle extends JPanel implements MouseListener, ActionListener 
         }        
     }
 
-
-
-
-
-
-    
-
-    // the card was clicked: select it
+    // the card was clicked select it
     public void mouseClicked(MouseEvent e) {
         panel.selectBatch(batch);
     }
@@ -168,13 +152,10 @@ public class BatchStyle extends JPanel implements MouseListener, ActionListener 
     // the mouse methods below are required by MouseListener but we do not use them
     public void mousePressed(MouseEvent e) {
     }
-
     public void mouseReleased(MouseEvent e) {
     }
-
     public void mouseEntered(MouseEvent e) {
     }
-
     public void mouseExited(MouseEvent e) {
     }
 }

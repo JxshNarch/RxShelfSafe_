@@ -1,6 +1,5 @@
 package frame;
 import database.DataStore;
-import database.FileFinder;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -22,8 +21,6 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import model.Account;
  
-
-
 // The login window
 public class LoginScreen extends JFrame implements ActionListener {
 
@@ -34,27 +31,16 @@ public class LoginScreen extends JFrame implements ActionListener {
 
     public LoginScreen(DataStore data) {
         this.data = data;
-
         setTitle("RxShelfSafe - Log In");
-   
-
-        
-        
-        //bg color
+        //bg color button
         UIManager.put("Button.select", new Color(210, 210, 210)); // Change the color to your desired color
-        
-        
          setSize(700, 1080);       //screen                           
         setExtendedState(JFrame.MAXIMIZED_BOTH);     
-        
-       
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
-       
-
         //logo and shi
-        ImageIcon logoIcon = new ImageIcon(FileFinder.find("icon.png"));
+        ImageIcon logoIcon = new ImageIcon("icon.png");
         Image scaled = logoIcon.getImage().getScaledInstance(230, 200, Image.SCALE_SMOOTH);
         logoIcon = new ImageIcon(scaled);
         JLabel logoLabel = new JLabel(logoIcon);
@@ -93,7 +79,6 @@ public class LoginScreen extends JFrame implements ActionListener {
         passLabel.setMinimumSize(new Dimension(260, 25));
         passLabel.setHorizontalAlignment(JLabel.LEFT);
         
-
         passField = new JPasswordField();
         passField.setPreferredSize(new Dimension(260, 35));
         passField.setMaximumSize(new Dimension(260, 35));
@@ -116,21 +101,6 @@ public class LoginScreen extends JFrame implements ActionListener {
         loginButton.setBackground(new Color(255, 255, 255)); 
         loginButton.setForeground(Color.black);
                    loginButton.setBorder(BorderFactory.createLineBorder(Color.black));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         //alignment
         JPanel content = new JPanel();
         content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
@@ -163,18 +133,7 @@ public class LoginScreen extends JFrame implements ActionListener {
         content.add(loginButton);
 
         add(content, BorderLayout.CENTER);
-
-
-
-
-
-
-
-
-
-        
-        //Joption pane style 
-
+        //overall Joption pane style
         UIManager.put("OptionPane.background", Color.WHITE);                
         UIManager.put("Panel.background", Color.WHITE);                     
           UIManager.put("OptionPane.messageForeground", Color.BLACK);          
@@ -184,19 +143,10 @@ public class LoginScreen extends JFrame implements ActionListener {
          UIManager.put("Button.foreground", Color.BLACK);
          
     }
-
     public void actionPerformed(ActionEvent e) {
         String username = userField.getText().trim();
         String password = new String(passField.getPassword());
-        
-        
-        
-
-
-
-
-
-    //ACC retriever 
+    //Account retriever 
         Account found = null;
         for (int i = 0; i < data.getAccounts().size(); i++) {
             Account a = data.getAccounts().get(i);
@@ -205,13 +155,11 @@ public class LoginScreen extends JFrame implements ActionListener {
     found = a;
 }
         }
-
         if (username.isEmpty() || password.isEmpty()) {  
            JOptionPane.showMessageDialog(this, "I think you forgot to type something man.",
                     "Check your input", JOptionPane.ERROR_MESSAGE);
               return;
    }
-
         if (found == null) {
             JOptionPane.showMessageDialog(this, "Wrong username or password.\n \nCase sensitive.",
                     "Login failed", JOptionPane.ERROR_MESSAGE);
@@ -223,9 +171,4 @@ public class LoginScreen extends JFrame implements ActionListener {
             main.showStartupAlert();
         }
     }
-
-
-
-
-
 }
