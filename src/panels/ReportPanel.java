@@ -51,6 +51,8 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
 //ui
     private String filter = "All";          // the filter that is chosen now
     private JComboBox<String> filterBox;
+    private JComboBox<String> sortBox;      //new (Batch ID, Medicine Name, Category)
+    private JButton filterButton;      //new
     private JButton sortButton;
     private JTextField searchField;
     private JButton searchButton;
@@ -109,12 +111,21 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
         hideBox.setSelectedIcon(new CheckIcon(true));
         hideBox.addActionListener(this);
         // the dropdown and the Sort button are on the right side
-       filterBox = new JComboBox<String>(new String[]{"All", "Good", "Near expiry", "Expired",
-        "Expiration Date", "Batch ID", "Medicine Name", "Category", "Quantity"});
+       filterBox = new JComboBox<String>(new String[]{"All", "Good", "Near expiry", "Expired"});      //fixed (only the filter options are here now)
         filterBox.setFont(new Font("Arial", Font.PLAIN, 16));
         filterBox.setPreferredSize(new Dimension(145, 30));
         filterBox.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         filterBox.setBackground(new Color(217, 217, 217));
+        filterButton = makeButton("Filter", Color.BLACK, Color.WHITE, 90);      //new
+
+        JLabel sorttext = new JLabel("Sort");      //new
+        sorttext.setFont(new Font("Arial", Font.BOLD, 16));      //new
+        sorttext.setForeground(Color.black);      //new
+        sortBox = new JComboBox<String>(new String[]{"Batch ID", "Medicine Name", "Category"});      //new (same look as the filter dropdown)
+        sortBox.setFont(new Font("Arial", Font.PLAIN, 16));      //new
+        sortBox.setPreferredSize(new Dimension(145, 30));      //new
+        sortBox.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));      //new
+        sortBox.setBackground(new Color(217, 217, 217));      //new
         sortButton = makeButton("Sort", Color.BLACK, Color.WHITE, 90);
 
         JPanel tools = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -125,6 +136,9 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
         JPanel rightTools = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         rightTools.add(filtertext);
         rightTools.add(filterBox);
+        rightTools.add(filterButton);      //new
+        rightTools.add(sorttext);      //new
+        rightTools.add(sortBox);      //new
         rightTools.add(sortButton);
         JPanel toolsRow = new JPanel(new BorderLayout());
         toolsRow.add(tools, BorderLayout.CENTER);
@@ -495,19 +509,16 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 
-        if (source == sortButton) {
-    String field = filterBox.getSelectedItem().toString();
-
-    if (field.equals("All") || field.equals("Good") || field.equals("Near expiry") || field.equals("Expired")) {
-        filter = field;
-        main.addLog("FILTER: report shows " + filter + " items.");
-        refresh();
-    } else {
-        data.getBatches().sortBy(field);
-        data.save();
-        main.addLog("SORT: report sorted by " + field);
-        refresh();
-    }
+        if (source == filterButton) {      //fixed (the Filter button only filters by status)
+            filter = filterBox.getSelectedItem().toString();      //fixed
+            main.addLog("FILTER: report shows " + filter + " items.");      //fixed
+            refresh();      //fixed
+        } else if (source == sortButton) {      //new (the Sort button only sorts)
+            String field = sortBox.getSelectedItem().toString();      //new
+            data.getBatches().sortBy(field);      //new
+            data.save();      //new
+            main.addLog("SORT: report sorted by " + field);      //new
+            refresh();      //new
         } else if (source == searchButton || source == searchField || source == hideBox) {
             refresh();
         } else if (source == checkSelectedButton) {

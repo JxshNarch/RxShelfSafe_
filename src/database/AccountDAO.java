@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import model.Account;
 
-// DAO = the only class that talks to the "accounts" table
+//the only class that talks to theaccounts table
 public class AccountDAO {
 
     public ArrayList<Account> getAll(Connection connection) throws SQLException {
@@ -31,7 +31,7 @@ public class AccountDAO {
         st.close();
         return total;
     }
-    // delete everything then insert the list again (the ? are filled by the values, so no SQL injection)
+    //delete everything then insert the list again (the ? are filled by the values, so no SQL injection)
     public void replaceAll(Connection connection, ArrayList<Account> list) throws SQLException {
         Statement st = connection.createStatement();
         st.executeUpdate("DELETE FROM accounts");
