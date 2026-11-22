@@ -41,7 +41,7 @@ public class RemovalPanel extends JPanel implements ActionListener, MouseListene
         this.main = main;
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-        // top
+        // top,UI
         JLabel title = new JLabel("REMOVAL QUEUE");
         title.setFont(new Font("Arial", Font.BOLD, 28));
 
@@ -90,7 +90,7 @@ setBackground(pageBg);
         scroll.getViewport().setBackground(new Color(230, 230, 230));
         scroll.getVerticalScrollBar().setUnitIncrement(20);
         add(scroll, BorderLayout.CENTER);
-        
+        //buttom buttons
         JPanel bottom = new JPanel(new FlowLayout(FlowLayout.LEFT));
         bottom.setBackground(new Color(230, 230,230));
         if (main.isAdmin()) {
@@ -258,7 +258,6 @@ int answer = JOptionPane.showConfirmDialog(this,
             showSelection();
         }
     }
-
     //required by unused
     public void mousePressed(MouseEvent e) {
     }

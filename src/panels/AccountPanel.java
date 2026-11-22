@@ -52,7 +52,6 @@ public class AccountPanel extends JPanel implements ActionListener {
 title.setOpaque(true);
 title.setBackground(pageBg);
         title.setFont(new Font("Arial", Font.BOLD, 28));
-
         JLabel subtitle = new JLabel("Manage system users and their access roles");
     subtitle.setOpaque(true);
 subtitle.setBackground(pageBg);
@@ -66,16 +65,11 @@ subtitle.setBackground(pageBg);
 
         //button
         addButton = makeButton("+ Add Account", Color.BLACK, Color.WHITE, 160);
-
        editButton = makeButton("Edit", barGray, Color.BLACK, 90);
-
       JPanel buttons = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
         buttons.add(addButton);
         buttons.add(editButton);
-
        top.add(buttons, BorderLayout.SOUTH);
-
         add(top, BorderLayout.NORTH);
 
 buttons.setBackground(pageBg);
@@ -110,9 +104,7 @@ setBackground(pageBg);
         headerHolder.add(header, BorderLayout.CENTER);
                 //scroll
         JScrollPane scroll = new JScrollPane(table);
-
         scroll.setColumnHeaderView(headerHolder);
-
         scroll.setViewportBorder(
                 BorderFactory.createEmptyBorder(0, 15, 0, 15)
         );
@@ -145,16 +137,14 @@ setBackground(pageBg);
         button.setFocusPainted(false);
         button.addActionListener(this);
         return button;
-    }
-    //row
-    private class RowRenderer extends DefaultTableCellRenderer {
-
+    } //logic
+    
+    public class RowRenderer extends DefaultTableCellRenderer {
         @Override
         public Component getTableCellRendererComponent(
                 JTable t, Object value,
                 boolean isSelected, boolean hasFocus,
                 int row, int column) {
-
             super.getTableCellRendererComponent(
                     t, value, isSelected, false, row, column
             );
@@ -176,7 +166,6 @@ setBackground(pageBg);
             } else {
                                setBackground(rowWhite);
                 setBorder(BorderFactory.createEmptyBorder());
-
             }
             return this;
         }
@@ -188,21 +177,18 @@ setBackground(pageBg);
                 JTable t, Object value,
                 boolean isSelected, boolean hasFocus,
                 int row, int column) {
-
             super.getTableCellRendererComponent(
                     t, value, false, false, row, column
             );
-
             setHorizontalAlignment(CENTER);
             setFont(new Font("Arial", Font.BOLD, 18));
             setForeground(Color.BLACK);
             setBackground(pageGray);
             setBorder(BorderFactory.createEmptyBorder());
-
             return this;
         }
     }
-    //refresg
+    //auto refresh
     public void refresh() {
         model.setRowCount(0);
         for (Account a : data.getAccounts()) {
@@ -212,65 +198,48 @@ setBackground(pageBg);
             });
         }
     }
-    //autton action
+    //button action
     @Override
     public void actionPerformed(ActionEvent e) {
-
         if (e.getSource() == addButton) {
-
             openAddDialog();
-
         } else if (e.getSource() == editButton) {
-
             openEditDialog();
-
         } else if (e.getSource() == removeButton) {
-
             removeAccount();
         }
     }
     // add acco
     private void openAddDialog() {
-
         AccountPopup dialog = new AccountPopup(main, "Add", null, null);
         dialog.setVisible(true);
-
         if (dialog.isSaved()) {
-
             String username = dialog.getNameValue();
             String password = dialog.getPasswordValue();
             String role = dialog.getRoleValue();
             for (Account a : data.getAccounts()) {
                 if (a.getUsername().equalsIgnoreCase(username)) {
-
                     JOptionPane.showMessageDialog(this,
                             "That username is already used.");
                     return;
                 }
             }
             data.getAccounts().add(new Account(username, password, role));
-
             main.addLog("ACCOUNT: " + role + " account \"" +
                     username + "\" was created.");
-
             data.save();
             main.refreshAll();
         }
     }
     // edit
     private void openEditDialog() {
-
         int row = table.getSelectedRow();
-
         if (row == -1) {
-
             JOptionPane.showMessageDialog(this,
                     "Please select an account first.");
             return;
         }
-
         Account selected = data.getAccounts().get(row);
-
         AccountPopup dialog = new AccountPopup(main, "Edit",
                 selected.getUsername(), selected.getRole());
 
@@ -320,7 +289,6 @@ setBackground(pageBg);
         }
         if (a.getRole().equals("ADMIN") &&
                 data.countRole("ADMIN") <= 1) {
-
             JOptionPane.showMessageDialog(this,
                     "There must be at least one admin.");
             return;
@@ -328,7 +296,6 @@ setBackground(pageBg);
         int answer = JOptionPane.showConfirmDialog(this,
                 "Remove the account \"" + a.getUsername() + "\"?",
                 "Confirm", JOptionPane.YES_NO_OPTION);
-
         if (answer == JOptionPane.YES_OPTION) {
             data.getAccounts().remove(row);
             main.addLog("ACCOUNT: account \"" +

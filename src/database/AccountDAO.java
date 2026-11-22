@@ -23,7 +23,6 @@ public class AccountDAO {
         st.close();
         return list;
     }
-
     public int count(Connection connection) throws SQLException {
         Statement st = connection.createStatement();
         ResultSet rs = st.executeQuery("SELECT COUNT(*) FROM accounts");
@@ -32,7 +31,6 @@ public class AccountDAO {
         st.close();
         return total;
     }
-
     // delete everything then insert the list again (the ? are filled by the values, so no SQL injection)
     public void replaceAll(Connection connection, ArrayList<Account> list) throws SQLException {
         Statement st = connection.createStatement();

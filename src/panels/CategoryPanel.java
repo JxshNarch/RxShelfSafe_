@@ -45,7 +45,7 @@ public class CategoryPanel extends JPanel implements ActionListener {
 
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-
+//ui
         // Title
         JLabel title = new JLabel("CATEGORIES");
         title.setOpaque(true);

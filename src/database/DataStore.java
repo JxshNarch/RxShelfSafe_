@@ -3,11 +3,8 @@ package database;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
-
 import java.util.HashMap;
 
 import java.sql.Connection;      
@@ -37,7 +34,8 @@ public class DataStore {
 
     private HashMap<String, String> requesters = new HashMap<String, String>();   // Batch ID -> username of the staff who requested it     
 
-        private String fileName =("rxshelfsafe_data.txt");      
+        
+        
 
     private Connection connection;                                  
     private AccountDAO accountDAO = new AccountDAO();              
@@ -89,37 +87,32 @@ public class DataStore {
     }
 
     // 
-    // LOAD    read the text file and fill the list, accounts, etc.
+    // LOAD
     //
     // 
         public void load() {
         try {
-            connection = DBConnection.open(DBConnection.findDatabase());      //new
+            connection = DBConnection.open(DBConnection.findDatabase());        
 
-            if (accountDAO.count(connection) == 0) {      //new (a brand new database)
-                if (new File(fileName).exists()) {      //new
-                    importTextFile();                   // copy the old text file into the database      //new
-                } else {      //new
-                    addSampleData();      //new
-                }      //new
-                makeSureDefaults();      //new
-                save();      //new
-                return;      //new
-            }      //new
+            if (accountDAO.count(connection) == 0) {
+    addSampleData();
+    save();
+    return;
+}       
 
-            accounts.addAll(accountDAO.getAll(connection));      //new
-            categories.addAll(categoryDAO.getAll(connection));      //new
-            batchDAO.loadInto(connection, batches);      //new
-            requestDAO.loadInto(connection, requests, requesters);      //new
-        } catch (SQLException e) {      //new
-            System.out.println("Could not read the database: " + e.getMessage());      //new
-        }      //new
+            accounts.addAll(accountDAO.getAll(connection));        
+            categories.addAll(categoryDAO.getAll(connection));        
+            batchDAO.loadInto(connection, batches);        
+            requestDAO.loadInto(connection, requests, requesters);        
+        } catch (SQLException e) {        
+            System.out.println("Could not read the database: " + e.getMessage());        
+        }        
 
         makeSureDefaults();      //fixed (moved into its own method)
     }
 
     // make sure there is always at least one admin and one staff account
-    private void makeSureDefaults() {      //new
+    private void makeSureDefaults() {        
         if (accounts.size() == 0) {
             addDefaultAccounts();
         }
@@ -128,61 +121,32 @@ public class DataStore {
         }
     }
 
-    private void importTextFile() {      //fixed (this is your old load(), renamed)
-        File file = new File(fileName);
-
-        try {
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            String line = reader.readLine();
-            while (line != null) {
-                String[] p = line.split("\t", -1);    // the parts are separated by a tab
-                if (p[0].equals("USER")) {
-                    accounts.add(new Account(p[1], p[2], p[3]));
-                } else if (p[0].equals("CAT")) {
-                    categories.add(p[1]);
-                } else if (p[0].equals("BATCH")) {
-                    Batch b = new Batch(p[1], p[2], Integer.parseInt(p[3]),
-                            LocalDate.parse(p[4]), p[5], p[6]);
-                    b.setChecked(p[7].equals("1"));
-                    batches.addLast(b);
-                } else if (p[0].equals("REQ")) {
-                    requests.add(p[1]);
-                    if (p.length > 2) {
-                        requesters.put(p[1], p[2]);
-                    }
-                }
-                line = reader.readLine();
-            }
-            reader.close();
-        } catch (Exception e) {
-            System.out.println("Could not read the old text file: " + e.getMessage());
-        }
-    }
+    
     //
-    // SAVE: write everything to the text file
+    //SAVE: write everything to the SQLite database
     //
     // 
         public void save() {
-        if (connection == null) {      //new
-            System.out.println("No database connection, nothing was saved.");      //new
-            return;      //new
-        }      //new
+        if (connection == null) {        
+            System.out.println("No database connection, nothing was saved.");        
+            return;        
+        }        
         try {
-            connection.setAutoCommit(false);        // all or nothing: if one part fails, nothing is changed      //new
-            accountDAO.replaceAll(connection, accounts);      //new
-            categoryDAO.replaceAll(connection, categories);      //new
-            batchDAO.replaceAll(connection, batches);      //new
-            requestDAO.replaceAll(connection, requests, requesters);      //new
-            connection.commit();      //new
-            connection.setAutoCommit(true);      //new
+            connection.setAutoCommit(false);        // all or nothing: if one part fails, nothing is changed        
+            accountDAO.replaceAll(connection, accounts);        
+            categoryDAO.replaceAll(connection, categories);        
+            batchDAO.replaceAll(connection, batches);        
+            requestDAO.replaceAll(connection, requests, requesters);        
+            connection.commit();        
+            connection.setAutoCommit(true);        
         } catch (SQLException e) {      //fixed
             System.out.println("Could not save to the database: " + e.getMessage());
-            try {      //new
-                connection.rollback();      //new
-                connection.setAutoCommit(true);      //new
-            } catch (SQLException e2) {      //new
-                System.out.println("Rollback failed: " + e2.getMessage());      //new
-            }      //new
+            try {        
+                connection.rollback();        
+                connection.setAutoCommit(true);        
+            } catch (SQLException e2) {        
+                System.out.println("Rollback failed: " + e2.getMessage()); 
+            }        
         }
     }
     //

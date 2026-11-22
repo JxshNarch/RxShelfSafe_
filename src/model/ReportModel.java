@@ -1,4 +1,4 @@
-package panels;
+package model;
 import javax.swing.table.DefaultTableModel;
 
 // The table model of the Expiry Report.

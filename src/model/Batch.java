@@ -67,27 +67,21 @@ public class Batch {
     public String getBatchId() {
         return batchId;
     }
-
     public String getName() {
         return name;
     }
-
     public int getQuantity() {
         return quantity;
     }
-
     public LocalDate getExpiration() {
         return expiration;
     }
-
     public String getCategory() {
         return category;
     }
-
     public String getDosage() {
         return dosage;
     }
-
     public boolean isChecked() {
         return checked;
     }

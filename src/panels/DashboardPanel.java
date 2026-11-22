@@ -25,7 +25,7 @@ public class DashboardPanel extends JPanel {
     private JPanel nextList;         
     
         private JLabel updatedLabel;//time update     
-
+//ui
     public DashboardPanel(DataStore data) {
         this.data = data;
         Color pageGray = new Color(230, 230, 230);    
@@ -136,10 +136,10 @@ totalLabel.setFont(new Font("roboto", Font.PLAIN, 38));
         nameLabel.setFont(new Font("Arial", Font.BOLD, 16));
 
         JLabel detailsLabel = new JLabel("Batch " + b.getBatchId()
-            + " ׀ Quantity: " + b.getQuantity()
-                + " ׀ Expiry date: " + b.getExpiration().format(Batch.DATE_FORMAT)
-          + " ׀ " + b.getCategory()
-            + " ׀ " + b.getDosage());
+            + " I Quantity: " + b.getQuantity()
+            + " I Expiry date: " + b.getExpiration().format(Batch.DATE_FORMAT)
+            + " I " + b.getCategory()
+            + " I " + b.getDosage());
         detailsLabel.setFont(new Font("Arial", Font.PLAIN, 15));
         detailsLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); 
         JPanel row = new JPanel(new BorderLayout(15, 0));
@@ -167,7 +167,8 @@ totalLabel.setFont(new Font("roboto", Font.PLAIN, 38));
     public void refresh() { //time update
                  updatedLabel.setText("Last updated: " 
                  + data.getLastUpdated().format(DateTimeFormatter.ofPattern("MMM dd, yyyy  hh:mm a"))); 
-                updatedLabel.setForeground(new Color(65, 167, 46));     
+                updatedLabel.setForeground(new Color(39, 213, 39));
+                updatedLabel.setFont(new Font("Arial", Font.BOLD, 16));
         BatchList list = data.getBatches();
         totalLabel.setText("" + list.getSize());
         goodLabel.setText("" + list.countStatus("Good"));

@@ -10,16 +10,11 @@ import java.sql.Statement;
 // SQLite needs no server, the whole database is just that one file.
 public class DBConnection {
 
-    // find the database file; if it does not exist yet, it will be made next to the old text file
+    /// Find the SQLite database file. If it doesn't exist, use the current directory.
     public static String findDatabase() {
-        String found = ("rxshelfsafe.db");
-        if (new File(found).exists()) {
-            return found;
-        }
-        String textFile = ("rxshelfsafe_data.txt");
-        File folder = new File(textFile).getAbsoluteFile().getParentFile();
-        return new File(folder, "rxshelfsafe.db").getAbsolutePath();
-    }
+    File db = new File("rxshelfsafe.db");
+    return db.getAbsolutePath();
+}
 
     public static Connection open(String path) throws SQLException {
         try {

@@ -31,8 +31,8 @@ public class BatchPanel extends JPanel implements ActionListener {
 
     private static final int PAGE_SIZE = 20;    
     
-     private String statusFilter = "All";          // the status that is chosen now
-    // cards
+     private String statusFilter = "All";         
+    
     private DataStore data;
     private MainFrame main;
 
@@ -44,7 +44,7 @@ public class BatchPanel extends JPanel implements ActionListener {
     // admin and staff
     private JButton prevButton, nextButton;
     private JLabel pageLabel;
-
+//UI
     private JPanel cardList;                                           
     private JScrollPane scroll;
     private ArrayList<BatchStyle> cards = new ArrayList<BatchStyle>();  
@@ -59,15 +59,17 @@ public class BatchPanel extends JPanel implements ActionListener {
         setLayout(new BorderLayout(10, 10));
         setBackground(new Color(230, 230, 230));
         setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-        //top: title, search and sort
+//header
         JLabel title = new JLabel("MANAGE BATCHES");
         title.setFont(new Font("Arial", Font.BOLD, 28));
 title.setOpaque(true);  
          title.setBackground(new Color(230, 230, 230));
-        JLabel subtitle = new JLabel("linked list from HEAD to the last node");
+        JLabel subtitle = new JLabel("linked list from HEAD to the last node");//sub header
         subtitle.setFont(new Font("Arial", Font.BOLD, 16));
 subtitle.setOpaque(true);  
           subtitle.setForeground(new Color(0,0,0));
+
+          //search
         searchField = new JTextField();
         searchField.setPreferredSize(new Dimension(600, 35));
         searchField.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -78,7 +80,7 @@ subtitle.setOpaque(true);
         searchButton = new JButton("Search");
         clearButton = new JButton("Clear");
         sortBox = new JComboBox<String>(new String[]{"All", "Good", "Near expiry", "Expired",
-        "Expiration Date", "Batch ID", "Medicine Name", "Category", "Quantity"});      //
+        "Expiration Date", "Batch ID", "Medicine Name", "Category", "Quantity"});      //sort
        JLabel filtertxt = new JLabel("Filer");
        filtertxt.setFont(new Font("Arial", Font.BOLD, 16));
        filtertxt.setForeground(Color.black);
@@ -92,12 +94,12 @@ subtitle.setOpaque(true);
         sortButton.setFont(new Font("Arial", Font.PLAIN, 16));
         sortBox.setFont(new Font("Arial", Font.PLAIN, 16));
 
-        // the ?help hover dialog
+        // the ? hover
         ImageIcon big = new ImageIcon("question.png");
         Image small = big.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH);
         JButton helpButton = new JButton(new ImageIcon(small));
-        helpButton.setBorder(BorderFactory.createEmptyBorder());      //   no padding around the icon
-        helpButton.setMargin(new Insets(0, 0, 0, 0));                 // no inner margin 12
+        helpButton.setBorder(BorderFactory.createEmptyBorder());      
+        helpButton.setMargin(new Insets(0, 0, 0, 0));                 
         helpButton.setPreferredSize(new Dimension(30, 30));
         helpButton.setToolTipText("Search by Name, ID or category");
         UIManager.put("ToolTip.font", new Font("Arial", Font.PLAIN, 14));
@@ -125,7 +127,7 @@ subtitle.setOpaque(true);
         UIManager.put("ComboBox.selectionBackground", new Color(222, 222, 222)); 
         UIManager.put("ComboBox.selectionForeground", Color.BLACK);                
         UIManager.put("ComboBox.background", Color.WHITE);                         
-
+//allignment
         JPanel tools = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
          tools.setBackground(new Color(230, 230, 230));
@@ -151,7 +153,7 @@ subtitle.setOpaque(true);
         top.add(toolsRow, BorderLayout.SOUTH);
         add(top, BorderLayout.NORTH);
 
-        //middle the list of cards one card for each node
+        //card(rectangle)
         cardList = new JPanel();
         cardList.setLayout(new BoxLayout(cardList, BoxLayout.Y_AXIS));
         cardList.setBackground(new Color(245, 245, 245));
@@ -166,9 +168,7 @@ subtitle.setOpaque(true);
         //bottom  button
         infoLabel = new JLabel(" ");
         JPanel bottom = new JPanel(new FlowLayout(FlowLayout.LEFT));
-
         bottom.setBackground(new Color(230, 230, 230)); 
-
         if (main.isAdmin()) {
             addButton = new JButton("+ Add");
             editButton = new JButton("Edit");
@@ -209,7 +209,7 @@ editButton.setPreferredSize(new Dimension(100, 30));
         pageLabel = new JLabel("Page 1 of 1");
         prevButton.addActionListener(this);
         nextButton.addActionListener(this);
-        
+        //botton alignmet
                 JPanel bottomRight = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
                 bottomRight.setBackground(new Color(230, 230, 230));
@@ -231,9 +231,7 @@ editButton.setPreferredSize(new Dimension(100, 30));
         prevButton.setPreferredSize(new Dimension(50, 30));
         nextButton.setPreferredSize(new Dimension(50, 30));
         pageLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-
     }
-  
     public void refresh() {
         int oldScroll = scroll.getVerticalScrollBar().getValue();
         shown = data.getBatches().search(filter);
@@ -270,14 +268,13 @@ if (!statusFilter.equals("All")) {
             boolean requested = data.getRequests().contains(b.getBatchId());
             BatchStyle card = new BatchStyle(b, b == head, !main.isAdmin(), requested, this);
             card.setSelected(b == selectedBatch);
-
                         cards.add(card);
             if (b == head) {   
                 cardList.add(makeArrowLabel("HEAD"));     
             }      
             cardList.add(card);
             if (b.getNext() != null) {     
-                cardList.add(makeArrowLabel("NEXT"));     
+                cardList.add(makeArrowLabel("--"));     
             } else {      
                 cardList.add(Box.createVerticalStrut(5));         
             }     
@@ -285,8 +282,7 @@ if (!statusFilter.equals("All")) {
         cardList.revalidate();
         cardList.repaint();
         scroll.validate();
-        scroll.getVerticalScrollBar().setValue(oldScroll);  
-
+        scroll.getVerticalScrollBar().setValue(oldScroll);
         pageLabel.setText("Page " + (page + 1) + " of " + totalPages);
         prevButton.setEnabled(page > 0);
         nextButton.setEnabled(page < totalPages - 1);
@@ -296,7 +292,7 @@ if (!statusFilter.equals("All")) {
     }
     //head n next text  
     private JLabel makeArrowLabel(String text) { 
-        JLabel label = new JLabel(text);      //new
+        JLabel label = new JLabel(text);        
         label.setFont(new Font("Arial", Font.BOLD, 13));  
         label.setForeground(new Color(80, 80, 80));     
         label.setAlignmentX(JLabel.CENTER_ALIGNMENT);     
@@ -322,18 +318,7 @@ if (!statusFilter.equals("All")) {
             main.refreshAll();
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-    // the Cancel button of a card was clicked staff        
+    //        
     public void cancelRemoval(Batch b) {        
         String who = data.getRequesters().get(b.getBatchId());        
         if (who != null && !who.equals(main.getUser().getUsername())) {        

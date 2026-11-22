@@ -40,6 +40,7 @@ import database.ExcelExporter;
 import frame.MainFrame;
 import model.Batch;
 import model.BatchList;
+import model.ReportModel;
 
 public class ReportPanel extends JPanel implements ActionListener, TableModelListener {
 
@@ -47,7 +48,7 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
 
     private DataStore data;
     private MainFrame main;
-
+//ui
     private String filter = "All";          // the filter that is chosen now
     private JComboBox<String> filterBox;
     private JButton sortButton;
@@ -75,7 +76,6 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
         JLabel title = new JLabel("EXPIRY REPORT");
         title.setFont(new Font("Arial", Font.BOLD, 28));
 
-
         title.setOpaque(true);  
           title.setBackground(new Color(230, 230, 230));
 
@@ -88,14 +88,10 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
 
         infoLabel = new JLabel(" ");            // "Showing ... checked" (refresh() fills it, it is at the bottom)
         infoLabel.setFont(new Font("Arial", Font.PLAIN, 16));
-
-
-
-
         JLabel filtertext = new JLabel("Filter");
         filtertext.setFont(new Font("Arial", Font.BOLD, 16));
         filtertext.setForeground(Color.black);
-
+//search
         searchField = new JTextField();
         searchField.setPreferredSize(new Dimension(300, 35));
         searchField.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -112,9 +108,9 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
         hideBox.setIcon(new CheckIcon(false));
         hideBox.setSelectedIcon(new CheckIcon(true));
         hideBox.addActionListener(this);
-
         // the dropdown and the Sort button are on the right side
-        filterBox = new JComboBox<String>(new String[]{"All", "Good", "Near expiry", "Expired"});
+       filterBox = new JComboBox<String>(new String[]{"All", "Good", "Near expiry", "Expired",
+        "Expiration Date", "Batch ID", "Medicine Name", "Category", "Quantity"});
         filterBox.setFont(new Font("Arial", Font.PLAIN, 16));
         filterBox.setPreferredSize(new Dimension(145, 30));
         filterBox.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
@@ -356,7 +352,7 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
                 rows.add(b);
             }
         }
-        sortByExpiry(rows);
+       
         shown = rows;
 
         // show them in the table
@@ -500,9 +496,18 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
         Object source = e.getSource();
 
         if (source == sortButton) {
-            filter = filterBox.getSelectedItem().toString();     // All, Good, Near expiry or Expired
-            main.addLog("FILTER: report shows " + filter + " items.");
-            refresh();
+    String field = filterBox.getSelectedItem().toString();
+
+    if (field.equals("All") || field.equals("Good") || field.equals("Near expiry") || field.equals("Expired")) {
+        filter = field;
+        main.addLog("FILTER: report shows " + filter + " items.");
+        refresh();
+    } else {
+        data.getBatches().sortBy(field);
+        data.save();
+        main.addLog("SORT: report sorted by " + field);
+        refresh();
+    }
         } else if (source == searchButton || source == searchField || source == hideBox) {
             refresh();
         } else if (source == checkSelectedButton) {

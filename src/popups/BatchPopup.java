@@ -19,7 +19,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-
 import java.awt.Cursor;        
 import java.awt.event.MouseAdapter;        
 import java.awt.event.MouseEvent;        
@@ -38,20 +37,14 @@ public class BatchPopup extends JDialog implements ActionListener {
     private JButton saveButton, cancelButton;
 
     public BatchPopup(JFrame owner, DataStore data, Batch editing) {
-
-
-
-
         super(owner, true);          // true = the user must close this window first
         this.data = data;
         this.editing = editing;
-
         if (editing == null) {
             setTitle("Add New Batch");
         } else {
             setTitle("Edit Batch");
         }
-
         nameField = new JTextField();
         idField = new JTextField();
         quantityField = new JTextField();
@@ -61,9 +54,6 @@ public class BatchPopup extends JDialog implements ActionListener {
         for (int i = 0; i < data.getCategories().size(); i++) {
             categoryBox.addItem(data.getCategories().get(i));
         }
-
-        //
-        //
         if (editing != null) {
             nameField.setText(editing.getName());
             idField.setText(editing.getBatchId());
@@ -73,13 +63,11 @@ public class BatchPopup extends JDialog implements ActionListener {
             dosageField.setText(editing.getDosage());
             categoryBox.setSelectedItem(editing.getCategory());
         }
-
         // a NEW batch starts with the next free Batch ID and today's date already typed        
         if (editing == null) {        
             idField.setText(data.getBatches().nextId());        
             dateField.setText(LocalDate.now().format(Batch.DATE_FORMAT));        
         }        
-
         // the date is picked from a calendar: click the box to open it        
         dateField.setEditable(false);        
         dateField.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));        
@@ -93,8 +81,6 @@ public class BatchPopup extends JDialog implements ActionListener {
                 }        
             }        
         });        
-        
-
         //table style
         JPanel form = new JPanel(new GridLayout(6, 1, 10, 10));
         form.setBorder(BorderFactory.createEmptyBorder(15, 15, 5, 15));
@@ -134,7 +120,6 @@ public class BatchPopup extends JDialog implements ActionListener {
         row.add(box);
         return row;
     }
-
     //row 2 style
     private void styleWindow(JPanel form, JPanel buttons) {
         Font labelFont = new Font("Arial", Font.BOLD, 16);
@@ -156,7 +141,6 @@ public class BatchPopup extends JDialog implements ActionListener {
                 }
             }
         }
-
         saveButton.setFont(fieldFont);
         saveButton.setPreferredSize(new Dimension(100, 30));
         saveButton.setBackground(Color.BLACK);
@@ -179,21 +163,17 @@ public class BatchPopup extends JDialog implements ActionListener {
     public boolean isSaved() {
         return saved;
     }
-
     public String getBatchId() {
         return idField.getText().trim();
     }
-
     public boolean isNewBatch() {
         return editing == null;
     }
-
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == cancelButton) {
             dispose();
             return;
         }
-
         // the Save button was clicked  check the input first
         String name = nameField.getText().trim();
         String id = idField.getText().trim();
@@ -211,7 +191,6 @@ public class BatchPopup extends JDialog implements ActionListener {
             showError("Batch ID " + id + " already exists.");
             return;
         }
-
         int quantity;
         try {
             quantity = Integer.parseInt(quantityField.getText().trim());
@@ -223,7 +202,6 @@ public class BatchPopup extends JDialog implements ActionListener {
             showError("Quantity cannot be negative.");
             return;
         }
-
         LocalDate expiration;
         try {
             expiration = LocalDate.parse(dateField.getText().trim(), Batch.DATE_FORMAT);
@@ -231,31 +209,12 @@ public class BatchPopup extends JDialog implements ActionListener {
             showError("Expiration date must be a real date like 12/31/2026.");
             return;
         }
-
         String category = categoryBox.getSelectedItem().toString();
-
         if (editing == null) {
-
-
-
-
-
-
-
-
             // new batch: add the node at the front of the linked list
             Batch newBatch = new Batch(id, name, quantity, expiration, category, dosage);
             data.getBatches().addFirst(newBatch);
         } else {
-
-
-
-
-
-
-
-
-
             // old batch
             editing.setName(name);
             editing.setQuantity(quantity);
@@ -264,11 +223,9 @@ public class BatchPopup extends JDialog implements ActionListener {
             editing.setDosage(dosage);
             editing.setChecked(false);       // the details changed click again
         }
-
         saved = true;
         dispose();
     }
-
     private void showError(String message) {
         JOptionPane.showMessageDialog(this, message, "Check your input", JOptionPane.ERROR_MESSAGE);
     }

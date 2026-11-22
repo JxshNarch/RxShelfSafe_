@@ -39,7 +39,7 @@ public class LoginScreen extends JFrame implements ActionListener {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
-        //logo and shi
+        //logo and
         ImageIcon logoIcon = new ImageIcon("icon.png");
         Image scaled = logoIcon.getImage().getScaledInstance(230, 200, Image.SCALE_SMOOTH);
         logoIcon = new ImageIcon(scaled);
@@ -93,9 +93,9 @@ public class LoginScreen extends JFrame implements ActionListener {
         //log button
         loginButton = new JButton("Log In");
         loginButton.setFont(new Font("Arial", Font.BOLD, 16));
-        loginButton.setPreferredSize(new Dimension(260, 40));
-        loginButton.setMaximumSize(new Dimension(260, 40));
-    loginButton.setMinimumSize(new Dimension(260, 40));
+        loginButton.setPreferredSize(new Dimension(260,40));
+        loginButton.setMaximumSize(new Dimension(260,40));
+    loginButton.setMinimumSize(new Dimension(260,40));
         loginButton.setFocusPainted(false);
         loginButton.addActionListener(this);
         loginButton.setBackground(new Color(255, 255, 255)); 
@@ -133,6 +133,8 @@ public class LoginScreen extends JFrame implements ActionListener {
         content.add(loginButton);
 
         add(content, BorderLayout.CENTER);
+
+
         //overall Joption pane style
         UIManager.put("OptionPane.background", Color.WHITE);                
         UIManager.put("Panel.background", Color.WHITE);                     
@@ -143,10 +145,12 @@ public class LoginScreen extends JFrame implements ActionListener {
          UIManager.put("Button.foreground", Color.BLACK);
          
     }
+    
+    //Account retriever 
     public void actionPerformed(ActionEvent e) {
         String username = userField.getText().trim();
         String password = new String(passField.getPassword());
-    //Account retriever 
+    
         Account found = null;
         for (int i = 0; i < data.getAccounts().size(); i++) {
             Account a = data.getAccounts().get(i);

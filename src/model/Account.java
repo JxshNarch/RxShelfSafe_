@@ -20,7 +20,7 @@ package model;
  */
 public class Account {
 
-    // ===== FIELDS (the data this object stores) =====
+    // FIELDS (the data this object stores)
     private String username;   // login name
     private String password;   // login password
     private String role;       // "ADMIN" or "STAFF"

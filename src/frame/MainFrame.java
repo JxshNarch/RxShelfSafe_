@@ -71,7 +71,7 @@ panelLabel.setFont(new Font("open sans", Font.BOLD, 20));
 panelLabel.setForeground(new Color(0, 0, 0));
 
 menu.add(panelLabel);
-//file finder
+
 ImageIcon profileIcon = new ImageIcon("user.png");
 Image smallIcon = profileIcon.getImage().getScaledInstance(28, 28, Image.SCALE_SMOOTH);
 JLabel userLabel = new JLabel(user.getUsername(), new ImageIcon(smallIcon), JLabel.CENTER);
@@ -86,8 +86,7 @@ menu.add(userLabel);
         categoryButton = makeMenuButton("Categories", "category.png", menu);
         if (isAdmin()) {
             accountButton = makeMenuButton("Accounts", "account.png", menu);
-        
-        }
+        } //log out button
         logoutButton = new JButton("Log Out");
               ImageIcon logoutIcon = new ImageIcon("logout.png");
 logoutButton.setIcon(new ImageIcon(logoutIcon.getImage().getScaledInstance(20, 20, Image.SCALE_SMOOTH)));
@@ -188,7 +187,7 @@ logoutButton.setIconTextGap(12);
     public Account getUser() {
         return user;
     }
-    //system log also ts
+    //system log also ts but logic
     public void addLog(String message) {
         String time = LocalTime.now().format(DateTimeFormatter.ofPattern("hh:mm:ss a"));
         logArea.append("[" + time + "] " + message + "\n");
@@ -210,7 +209,7 @@ logoutButton.setIconTextGap(12);
         refreshAll();
         cards.show(center, name);
     }
-    //warnind
+    //warning popup
     public void showStartupAlert() {
         int expired = data.getBatches().countStatus("Expired");
         int near = data.getBatches().countStatus("Near expiry");

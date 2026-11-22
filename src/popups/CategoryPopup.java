@@ -1,4 +1,5 @@
 package popups;
+import database.DataStore;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -14,18 +15,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
-import database.DataStore;
-
-
-
-
-
-
-
-
-
-
 // The small window for adding a category or renaming one.
 //
 public class CategoryPopup extends JDialog implements ActionListener {
