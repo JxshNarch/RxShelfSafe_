@@ -163,7 +163,7 @@ public class LoginScreen extends JFrame implements ActionListener {
            JOptionPane.showMessageDialog(this, "I think you forgot to type something man.",
                     "Check your input", JOptionPane.ERROR_MESSAGE);
               return;
-   }
+   }//catch
         if (found == null) {
             JOptionPane.showMessageDialog(this, "Wrong username or password.\n \nCase sensitive.",
                     "Login failed", JOptionPane.ERROR_MESSAGE);

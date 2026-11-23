@@ -114,7 +114,6 @@ public class BatchStyle extends JPanel implements MouseListener, ActionListener 
     public Batch getBatch() {
         return batch;
     }
-    
     public void setSelected(boolean selected) {
         if (selected) {
             setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
@@ -124,7 +123,6 @@ public class BatchStyle extends JPanel implements MouseListener, ActionListener 
             setBackground(Color.WHITE);
         }
     }
-
     //color stripe
     private Color statusColor(String status) {
         if (status.equals("Expired")) {

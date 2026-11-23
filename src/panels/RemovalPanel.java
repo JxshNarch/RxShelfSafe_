@@ -261,13 +261,10 @@ int answer = JOptionPane.showConfirmDialog(this,
     //required by unused
     public void mousePressed(MouseEvent e) {
     }
-
     public void mouseReleased(MouseEvent e) {
     }
-
     public void mouseEntered(MouseEvent e) {
     }
-
     public void mouseExited(MouseEvent e) {
     }
 }

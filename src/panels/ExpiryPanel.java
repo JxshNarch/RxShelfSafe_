@@ -42,7 +42,7 @@ import model.Batch;
 import model.BatchList;
 import model.ReportModel;
 
-public class ReportPanel extends JPanel implements ActionListener, TableModelListener {
+public class ExpiryPanel extends JPanel implements ActionListener, TableModelListener {
 
     private Color pageBg = new Color(230, 230, 230);   // the page, not the table
 
@@ -63,32 +63,32 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
     private JLabel infoLabel;
     private JButton checkSelectedButton, uncheckSelectedButton, checkAllButton, uncheckAllButton, exportButton;
 
-    private ArrayList<Batch> shown = new ArrayList<Batch>();    // the batches in the table now
+    private ArrayList<Batch> shown = new ArrayList<Batch>(); 
 
-    private Color pageGray = new Color(255,255,255);          // background of the table area
-    private Color selectColor = new Color(200, 225, 250);       // color of the selected rows
+    private Color pageGray = new Color(255,255,255);         
+    private Color selectColor = new Color(200, 225, 250);//colot of the selected rows
 
-    public ReportPanel(DataStore data, MainFrame main) {
+    public ExpiryPanel(DataStore data, MainFrame main) {
         this.data = data;
         this.main = main;
         setLayout(new BorderLayout(10, 10));
         setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
-        // top: title, the gray text under it, then search and filter
+    
         JLabel title = new JLabel("EXPIRY REPORT");
         title.setFont(new Font("Arial", Font.BOLD, 28));
 
         title.setOpaque(true);  
           title.setBackground(new Color(230, 230, 230));
 
-        JLabel subtitle = new JLabel("Batches are sorted by expiry date, soonest first");   // change this text if you want
+        JLabel subtitle = new JLabel("Batches are sorted by expiry date, soonest first"); 
         subtitle.setFont(new Font("Arial", Font.BOLD, 16));
         subtitle.setForeground(new Color(0,0,0));
 
         subtitle.setOpaque(true);  
           subtitle.setBackground(new Color(230, 230, 230));
 
-        infoLabel = new JLabel(" ");            // "Showing ... checked" (refresh() fills it, it is at the bottom)
+        infoLabel = new JLabel(" ");           
         infoLabel.setFont(new Font("Arial", Font.PLAIN, 16));
         JLabel filtertext = new JLabel("Filter");
         filtertext.setFont(new Font("Arial", Font.BOLD, 16));
@@ -100,7 +100,7 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
         searchField.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(Color.BLACK, 2),
                 BorderFactory.createEmptyBorder(0, 10, 0, 8)));
-        searchField.addActionListener(this);                // Enter also searches
+        searchField.addActionListener(this);       
 
         searchButton = makeButton("Search", Color.BLACK, Color.WHITE, 100);
 
@@ -111,21 +111,21 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
         hideBox.setSelectedIcon(new CheckIcon(true));
         hideBox.addActionListener(this);
         // the dropdown and the Sort button are on the right side
-       filterBox = new JComboBox<String>(new String[]{"All", "Good", "Near expiry", "Expired"});      //fixed (only the filter options are here now)
+       filterBox = new JComboBox<String>(new String[]{"All", "Good", "Near expiry", "Expired"});     
         filterBox.setFont(new Font("Arial", Font.PLAIN, 16));
         filterBox.setPreferredSize(new Dimension(145, 30));
         filterBox.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         filterBox.setBackground(new Color(217, 217, 217));
-        filterButton = makeButton("Filter", Color.BLACK, Color.WHITE, 90);      //new
+        filterButton = makeButton("Filter", Color.BLACK, Color.WHITE, 90);     
 
-        JLabel sorttext = new JLabel("Sort");      //new
-        sorttext.setFont(new Font("Arial", Font.BOLD, 16));      //new
-        sorttext.setForeground(Color.black);      //new
-        sortBox = new JComboBox<String>(new String[]{"Batch ID", "Medicine Name", "Category"});      //new (same look as the filter dropdown)
-        sortBox.setFont(new Font("Arial", Font.PLAIN, 16));      //new
-        sortBox.setPreferredSize(new Dimension(145, 30));      //new
-        sortBox.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));      //new
-        sortBox.setBackground(new Color(217, 217, 217));      //new
+        JLabel sorttext = new JLabel("Sort");      
+        sorttext.setFont(new Font("Arial", Font.BOLD, 16));      
+        sorttext.setForeground(Color.black);      
+        sortBox = new JComboBox<String>(new String[]{"Batch ID", "Medicine Name", "Category"});    
+        sortBox.setFont(new Font("Arial", Font.PLAIN, 16));     
+        sortBox.setPreferredSize(new Dimension(145, 30));      
+        sortBox.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));   
+        sortBox.setBackground(new Color(217, 217, 217));     
         sortButton = makeButton("Sort", Color.BLACK, Color.WHITE, 90);
 
         JPanel tools = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -136,9 +136,9 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
         JPanel rightTools = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         rightTools.add(filtertext);
         rightTools.add(filterBox);
-        rightTools.add(filterButton);      //new
-        rightTools.add(sorttext);      //new
-        rightTools.add(sortBox);      //new
+        rightTools.add(filterButton);      
+        rightTools.add(sorttext);      
+        rightTools.add(sortBox);     
         rightTools.add(sortButton);
         JPanel toolsRow = new JPanel(new BorderLayout());
         toolsRow.add(tools, BorderLayout.CENTER);
@@ -153,33 +153,33 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
         toolsRow.setBackground(pageBg);
         rightTools.setBackground(pageBg);
         setBackground(pageBg);
-        // middle: the table (the status column is in the model, but we hide it and draw a stripe instead)
+        // middlethe table the status column is in the model, but we hide it and draw a stripe instead
         model = new ReportModel(new String[]{"Mark", "ID", "Name", "Category",
             "Quantity", "Expiry Date", "Days Left", "Status"});
-        model.addTableModelListener(this);      // so we know when a check box is clicked
+        model.addTableModelListener(this);      
         table = new JTable(model);
         table.setRowHeight(38);
-        table.setIntercellSpacing(new Dimension(0, 8));         // the space between the rows
+        table.setIntercellSpacing(new Dimension(0, 8));        
         table.setShowGrid(false);
         table.setBackground(pageGray);
         table.setSelectionBackground(selectColor);
         table.setSelectionForeground(Color.BLACK);
         table.setFillsViewportHeight(true);
-        // Ctrl+A, Ctrl+click and Shift+click still work because of this
+       
         table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
         table.removeColumn(table.getColumnModel().getColumn(7));    // hide the Status column
         table.moveColumn(2, 1);        
                                      // Name goes before ID
-                table.getColumnModel().getColumn(0).setMinWidth(90);        // Mark: a narrow column that keeps this width
+                table.getColumnModel().getColumn(0).setMinWidth(90);        // Mark a narrow column that keeps this width
         table.getColumnModel().getColumn(0).setMaxWidth(90);
           // Mark
-        table.getColumnModel().getColumn(1).setPreferredWidth(200); // Name
+        table.getColumnModel().getColumn(1).setPreferredWidth(200);     // Name
         table.getColumnModel().getColumn(2).setPreferredWidth(80);  // ID
         table.getColumnModel().getColumn(3).setPreferredWidth(160); // Category
-        table.getColumnModel().getColumn(4).setPreferredWidth(90);  // Quantity
+        table.getColumnModel().getColumn(4).setPreferredWidth(90);       // Quantity
         table.getColumnModel().getColumn(5).setPreferredWidth(130); // Expiry Date
-        table.getColumnModel().getColumn(6).setPreferredWidth(90);  // Days Left
+        table.getColumnModel().getColumn(6).setPreferredWidth(90);    // Days Left
 
         // how the cells look
         table.setDefaultRenderer(Object.class, new RowCellRenderer());
@@ -191,7 +191,7 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
         editBox.setSelectedIcon(new CheckIcon(true));
         table.setDefaultEditor(Boolean.class, new DefaultCellEditor(editBox));
 
-        // the header (Mark, Name, ID ...)
+        // the header Mark, Name ID
         JTableHeader header = table.getTableHeader();
         header.setDefaultRenderer(new HeaderRenderer());
         header.setPreferredSize(new Dimension(100, 40));
@@ -202,11 +202,11 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
         JScrollPane scroll = new JScrollPane(table);
         scroll.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         scroll.getViewport().setBackground(pageGray);
-                scroll.setViewportBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15));   // small space at the right of the rows
+                scroll.setViewportBorder(BorderFactory.createEmptyBorder(0, 0, 0, 15)); 
         scroll.getVerticalScrollBar().setUnitIncrement(20);
         add(scroll, BorderLayout.CENTER);
 
-        // bottom: check buttons and the info text on the left, export on the right
+        // bottom check buttons and the info text on the left, export on the right
         checkSelectedButton = makeButton("Check", Color.BLACK, Color.WHITE, 100);
         uncheckSelectedButton = makeButton("Uncheck", Color.BLACK, Color.WHITE, 100);
         checkAllButton = makeButton("Check all", new Color(190, 190, 190), Color.BLACK, 110);
@@ -509,16 +509,16 @@ public class ReportPanel extends JPanel implements ActionListener, TableModelLis
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 
-        if (source == filterButton) {      //fixed (the Filter button only filters by status)
-            filter = filterBox.getSelectedItem().toString();      //fixed
-            main.addLog("FILTER: report shows " + filter + " items.");      //fixed
-            refresh();      //fixed
-        } else if (source == sortButton) {      //new (the Sort button only sorts)
-            String field = sortBox.getSelectedItem().toString();      //new
-            data.getBatches().sortBy(field);      //new
-            data.save();      //new
-            main.addLog("SORT: report sorted by " + field);      //new
-            refresh();      //new
+        if (source == filterButton) {    
+            filter = filterBox.getSelectedItem().toString();  
+            main.addLog("FILTER: report shows " + filter + " items.");     
+            refresh();   
+        } else if (source == sortButton) {    
+            String field = sortBox.getSelectedItem().toString();     
+            data.getBatches().sortBy(field);     
+            data.save();    
+            main.addLog("SORT: report sorted by " + field);  
+            refresh();    
         } else if (source == searchButton || source == searchField || source == hideBox) {
             refresh();
         } else if (source == checkSelectedButton) {

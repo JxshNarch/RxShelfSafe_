@@ -10,16 +10,12 @@ import java.util.HashMap;
 import java.sql.Connection;      
 import java.sql.SQLException;     
 
-
-
 import model.Account;
 import model.Batch;
 import model.BatchList;
 
 public class DataStore {
 
-
-       
     public java.time.LocalDateTime getLastUpdated() {      
         File db = new File(DBConnection.findDatabase());    
         return java.time.LocalDateTime.ofInstant(java.time.Instant.ofEpochMilli(db.lastModified()),     
@@ -32,7 +28,7 @@ public class DataStore {
     private ArrayList<String> requests = new ArrayList<String>();   // Batch IDs waiting for the admin (first in, first out)   //fixed (comment was missing)
 
 
-    private HashMap<String, String> requesters = new HashMap<String, String>();   // Batch ID -> username of the staff who requested it     
+    private HashMap<String, String> requesters = new HashMap<String, String>();   // Batch ID username of the staff who requested it     
 
         
         
@@ -159,7 +155,6 @@ public class DataStore {
         accounts.add(new Account("admin", "admin123", "ADMIN"));
         accounts.add(new Account("staff", "staff123", "STAFF"));
     }
-
     private void addDefaultCategories() {
         categories.add("Pain Relievers");
         categories.add("Antibiotics");
@@ -167,7 +162,6 @@ public class DataStore {
         categories.add("Vitamins");
         categories.add("Antacids");
     }
-
     private void addSampleData() {
         addDefaultAccounts();
         addDefaultCategories();

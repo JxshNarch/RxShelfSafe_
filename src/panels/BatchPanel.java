@@ -39,8 +39,8 @@ public class BatchPanel extends JPanel implements ActionListener {
     private JTextField searchField;
     private JButton searchButton, clearButton, sortButton;
     private JComboBox<String> sortBox;
-    private JComboBox<String> filterBox;      //new (the status filter: All, Good, Near expiry, Expired)
-    private JButton filterButton;      //new
+    private JComboBox<String> filterBox;    
+    private JButton filterButton;    
     private JLabel infoLabel;
     private JButton addButton, editButton, deleteButton;//admin
     // admin and staff
@@ -66,7 +66,7 @@ public class BatchPanel extends JPanel implements ActionListener {
         title.setFont(new Font("Arial", Font.BOLD, 28));
 title.setOpaque(true);  
          title.setBackground(new Color(230, 230, 230));
-        JLabel subtitle = new JLabel("linked list from HEAD to the last node");//sub header
+        JLabel subtitle = new JLabel("linked list from HEAD to the last node");
         subtitle.setFont(new Font("Arial", Font.BOLD, 16));
 subtitle.setOpaque(true);  
           subtitle.setForeground(new Color(0,0,0));
@@ -81,27 +81,27 @@ subtitle.setOpaque(true);
         searchField.addActionListener(this);               
         searchButton = new JButton("Search");
         clearButton = new JButton("Clear");
-        sortBox = new JComboBox<String>(new String[]{"Batch ID", "Medicine Name", "Category"});      //fixed (only the sort options are here now)
-        filterBox = new JComboBox<String>(new String[]{"All", "Good", "Near expiry", "Expired"});      //new (the filter options)
-       JLabel filtertxt = new JLabel("Filter");      //fixed (it was "Filer")
+        sortBox = new JComboBox<String>(new String[]{"Batch ID", "Medicine Name", "Category"});   
+        filterBox = new JComboBox<String>(new String[]{"All", "Good", "Near expiry", "Expired"});  
+       JLabel filtertxt = new JLabel("Filter");     
        filtertxt.setFont(new Font("Arial", Font.BOLD, 16));
        filtertxt.setForeground(Color.black);
-       JLabel sorttxt = new JLabel("Sort");      //new
-       sorttxt.setFont(new Font("Arial", Font.BOLD, 16));      //new
-       sorttxt.setForeground(Color.black);      //new
-        filterButton = new JButton("Filter");      //new
+       JLabel sorttxt = new JLabel("Sort");     
+       sorttxt.setFont(new Font("Arial", Font.BOLD, 16));    
+       sorttxt.setForeground(Color.black);      
+        filterButton = new JButton("Filter");    
         sortButton = new JButton("Sort");
         searchButton.addActionListener(this);
         clearButton.addActionListener(this);
         sortButton.addActionListener(this);
-        filterButton.addActionListener(this);      //new
+        filterButton.addActionListener(this);     
 
         searchButton.setFont(new Font("Arial", Font.PLAIN, 16));
         clearButton.setFont(new Font("Arial", Font.PLAIN, 16));
         sortButton.setFont(new Font("Arial", Font.PLAIN, 16));
         sortBox.setFont(new Font("Arial", Font.PLAIN, 16));
-        filterButton.setFont(new Font("Arial", Font.PLAIN, 16));      //new
-        filterBox.setFont(new Font("Arial", Font.PLAIN, 16));      //new
+        filterButton.setFont(new Font("Arial", Font.PLAIN, 16));   
+        filterBox.setFont(new Font("Arial", Font.PLAIN, 16));     
 
         // the ? hover
         ImageIcon big = new ImageIcon("question.png");
@@ -127,10 +127,10 @@ subtitle.setOpaque(true);
         sortButton.setForeground(new Color(255, 255, 255));
         sortButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
 
-        filterButton.setPreferredSize(new Dimension(90, 30));      //new (same look as the Sort button)
-        filterButton.setBackground(new Color(0, 0, 0));      //new
-        filterButton.setForeground(new Color(255, 255, 255));      //new
-        filterButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));      //new
+        filterButton.setPreferredSize(new Dimension(90, 30));    
+        filterButton.setBackground(new Color(0, 0, 0));      
+        filterButton.setForeground(new Color(255, 255, 255));     
+        filterButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));      
 
         clearButton.setPreferredSize(new Dimension(90, 30));
         clearButton.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
@@ -139,9 +139,9 @@ subtitle.setOpaque(true);
         sortBox.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));
         sortBox.setBackground(new Color(255, 255, 255));
 
-        filterBox.setPreferredSize(new Dimension(145, 30));      //new (same look as the sort dropdown)
-        filterBox.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));      //new
-        filterBox.setBackground(new Color(255, 255, 255));      //new
+        filterBox.setPreferredSize(new Dimension(145, 30));      
+        filterBox.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2));     
+        filterBox.setBackground(new Color(255, 255, 255));     
         UIManager.put("ComboBox.selectionBackground", new Color(222, 222, 222)); 
         UIManager.put("ComboBox.selectionForeground", Color.BLACK);                
         UIManager.put("ComboBox.background", Color.WHITE);                         
@@ -157,9 +157,9 @@ subtitle.setOpaque(true);
          toolr.setBackground(new Color(230, 230, 230));
         
           toolr.add(filtertxt);
-        toolr.add(filterBox);      //new
-        toolr.add(filterButton);      //new
-        toolr.add(sorttxt);      //new
+        toolr.add(filterBox);      
+        toolr.add(filterButton);      
+        toolr.add(sorttxt);      
         toolr.add(sortBox);
         toolr.add(sortButton);
         JPanel reviewHolder = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -377,22 +377,22 @@ if (!statusFilter.equals("All")) {
             searchField.setText("");
             filter = "";
             statusFilter = "All";                 
-            filterBox.setSelectedItem("All");      //new (the filter dropdown goes back to All)
+            filterBox.setSelectedItem("All");      
             page = 0;
             refresh();
-        } else if (source == filterButton) {      //new (the Filter button only filters by status)
-            statusFilter = filterBox.getSelectedItem().toString();      //new
-            page = 0;      //new
-            main.addLog("FILTER: showing " + statusFilter + " batches.");      //new
-            refresh();      //new
-        } else if (source == sortButton) {      //fixed (the Sort button only sorts now)
-            String field = sortBox.getSelectedItem().toString();      //fixed
-            data.getBatches().sortBy(field);      //fixed
-            data.save();      //fixed
-            page = 0;      //fixed
-            main.addLog("SORT: list sorted by " + field + " (head is now "      //fixed
-                    + data.getBatches().getHead().getBatchId() + ").");      //fixed
-            refresh();      //fixed
+        } else if (source == filterButton) {     
+            statusFilter = filterBox.getSelectedItem().toString();      
+            page = 0;     
+            main.addLog("FILTER: showing " + statusFilter + " batches.");     
+            refresh();      
+        } else if (source == sortButton) {   
+            String field = sortBox.getSelectedItem().toString();     
+            data.getBatches().sortBy(field);     
+            data.save();      
+            page = 0;     
+            main.addLog("SORT: list sorted by " + field + " (head is now "      
+                    + data.getBatches().getHead().getBatchId() + ").");     
+            refresh();     
         } else if (source == prevButton) {
             page--;
             refresh();

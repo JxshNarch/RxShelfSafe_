@@ -8,7 +8,6 @@ public class ReportModel extends DefaultTableModel {
     public ReportModel(String[] columns) {
         super(columns, 0);
     }
-
     // column 0 holds true/false, so the table draws a check box
     public Class<?> getColumnClass(int column) {
         if (column == 0) {
@@ -16,7 +15,6 @@ public class ReportModel extends DefaultTableModel {
         }
         return Object.class;
     }
-
     //only the check box column can be clicked
     public boolean isCellEditable(int row, int column) {
         return column == 0;
