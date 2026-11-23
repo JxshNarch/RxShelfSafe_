@@ -24,7 +24,7 @@ public class Batch {
     private boolean checked;
 
 
-    private Batch next;//reference number id
+    private Batch next;//reference number of next id
 
     
     public Batch(String batchId, String name, int quantity,

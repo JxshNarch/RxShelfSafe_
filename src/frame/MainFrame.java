@@ -26,8 +26,8 @@ import panels.AccountPanel;
 import panels.BatchPanel;
 import panels.CategoryPanel;
 import panels.DashboardPanel;
-import panels.ExpiryPanel;
 import panels.RemovalPanel;
+import panels.ReportPanel;
 
 public class MainFrame extends JFrame implements ActionListener {
 
@@ -47,7 +47,7 @@ public class MainFrame extends JFrame implements ActionListener {
     private DashboardPanel dashboardPanel;
     private BatchPanel inventoryPanel;
     private RemovalPanel removalPanel;
-    private ExpiryPanel reportPanel;
+    private ReportPanel reportPanel;
     private CategoryPanel categoryPanel;
     private AccountPanel accountPanel;//admin
 
@@ -116,7 +116,7 @@ logoutButton.setIconTextGap(12);
         dashboardPanel = new DashboardPanel(data);
         inventoryPanel = new BatchPanel(data, this);
         removalPanel = new RemovalPanel(data, this);
-        reportPanel = new ExpiryPanel(data, this);
+        reportPanel = new ReportPanel(data, this);
         categoryPanel = new CategoryPanel(data, this);
         center.add(dashboardPanel, "dashboard");
         center.add(inventoryPanel, "batches");
