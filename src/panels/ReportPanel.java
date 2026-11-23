@@ -42,7 +42,7 @@ import model.Batch;
 import model.BatchList;
 import model.ReportModel;
 
-public class ExpiryPanel extends JPanel implements ActionListener, TableModelListener {
+public class ReportPanel extends JPanel implements ActionListener, TableModelListener {
 
     private Color pageBg = new Color(230, 230, 230);   // the page, not the table
 
@@ -68,7 +68,7 @@ public class ExpiryPanel extends JPanel implements ActionListener, TableModelLis
     private Color pageGray = new Color(255,255,255);         
     private Color selectColor = new Color(200, 225, 250);//colot of the selected rows
 
-    public ExpiryPanel(DataStore data, MainFrame main) {
+    public ReportPanel(DataStore data, MainFrame main) {
         this.data = data;
         this.main = main;
         setLayout(new BorderLayout(10, 10));
